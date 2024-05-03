@@ -9,7 +9,7 @@ interface ILayoutProps {
 
 const Layout: FC<ILayoutProps> = ({ children }) => {
 
-  return <main>
+  return <main className="min-h-screen bg-background font-sans antialiased">
     <Header />
     {children}
     <Footer />

@@ -73,7 +73,17 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
-      }
+        mono: ["var(--font-space)"],
+      },
+      // fontSize: {
+      //   sm: "10px",
+      //   base: "14px",
+      //   xl: "16px",
+      //   "2xl": "20px",
+      //   "3xl": "24px",
+      //   "4xl": "28px",
+      //   "5xl": "32px",
+      // },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],

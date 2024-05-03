@@ -33,7 +33,9 @@
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
     --font-inter: "Inter", sans-serif;
+    --font-space: "Space Mono", monospace;
   }
 
   .dark {
@@ -69,9 +71,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border text-base;
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+
+@layer utilities {
+  .grid-center {
+    @apply grid place-items-center;
   }
 }
