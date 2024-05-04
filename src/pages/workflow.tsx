@@ -3,7 +3,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@ui/resiza
 
 const WorkFlow: FC = () => {
 
-  return <ResizablePanelGroup direction="vertical" className="min-h-[calc(100dvh-3.5rem)]">
+  return <ResizablePanelGroup direction="vertical" className="min-h-screen">
     <ResizablePanel defaultSize={75}>
       <div className="flex h-full items-center justify-center p-6">
         <span className="font-semibold">Workflow</span>
