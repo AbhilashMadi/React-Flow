@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const HeroPage: FC = () => {
 
   return (<article className="grid-center min-h-screen">
-    <section className="max-w-4xl text-center">
+    <section className="max-w-4xl text-center ">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
         {lang.heroHeadLine}
       </h1>
