@@ -11,7 +11,7 @@ const HeroPage: FC = () => {
 
   return (<article className="grid-center min-h-screen">
     <section className="max-w-4xl text-center ">
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+      <h1 className="inline-flex animate-text-gradient scroll-m-20 bg-gradient-to-r from-[#b2a8fd] via-[#8678f9] to-[#c7d2fe] bg-[200%_auto] bg-clip-text text-4xl font-extrabold tracking-tight text-transparent lg:text-5xl">
         {lang.heroHeadLine}
       </h1>
       <p className="my-8 text-sm leading-snug text-muted-foreground">

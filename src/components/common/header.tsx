@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Header: FC = () => {
 
   return (
-    <header className="container fixed top-0 z-50 flex h-14 w-full max-w-screen-2xl items-center justify-between border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 z-50 flex h-14 w-full max-w-screen-2xl items-center justify-between border-b border-border/40 bg-background/95 px-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Link
         to={RoutePaths.LANDING}
         role="button"

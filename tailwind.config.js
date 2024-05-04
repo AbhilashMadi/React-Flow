@@ -57,6 +57,11 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "text-gradient": "text-gradient 1.5s linear infinite"
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -66,10 +71,11 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "text-gradient": {
+          "to": {
+            "backgroundPosition": "200% center"
+          }
+        }
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
