@@ -1,6 +1,6 @@
 import Layout from "@/components/common/layout";
 import AppContext from "@/context/app-context";
-import { RoutePaths } from "@/utils/routes";
+import { RoutePaths } from "@/lib/routes";
 import { type FC, lazy, LazyExoticComponent, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 

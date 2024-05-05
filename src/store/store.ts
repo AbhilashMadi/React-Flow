@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 /* reducers */
-import counter from "@/store/reducers/counter-slice"
+import flowdata from "@/store/reducers/flow-data-slice"
 
 export const store = configureStore({
   reducer: {
-    counter
+    flowdata
   },
 })
 

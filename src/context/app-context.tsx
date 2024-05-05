@@ -1,5 +1,5 @@
 import { Themes, type AppContextState } from "@/types/context";
-import { LocalStorageKeys } from "@/utils/storage-keys";
+import { LocalStorageKeys } from "@/lib/storage-keys";
 import { createContext, useCallback, useEffect, useState, type FC, type ReactNode } from "react";
 
 export const appContext = createContext<AppContextState>({

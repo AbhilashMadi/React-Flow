@@ -1,13 +1,15 @@
 import ThemeSwitch from "@/components/common/theme-switch";
-import { RoutePaths } from "@/utils/routes";
+import { RoutePaths } from "@/lib/routes";
 import { SquareDashedMousePointer } from "lucide-react";
 import { type FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header: FC = () => {
+  const isWorkflow: boolean = useLocation().pathname.includes(RoutePaths.WORKFLOW);
 
-  return (
-    <header className="fixed top-0 z-50 flex h-14 w-full max-w-screen-2xl items-center justify-between border-b border-border/40 bg-background/95 px-2 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+  return isWorkflow
+    ? <></>
+    : <header className="fixed top-0 z-50 flex h-14 w-full max-w-screen-2xl items-center justify-between border-b border-border/40 bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Link
         to={RoutePaths.LANDING}
         role="button"
@@ -24,7 +26,6 @@ const Header: FC = () => {
       </Link>
       <ThemeSwitch />
     </header>
-  )
 }
 
 export default Header
