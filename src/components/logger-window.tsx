@@ -25,9 +25,10 @@ const LoggerWindow: FC = () => {
       {logs.length ? (
         logs.map((o) => (
           <li key={o.time} className={`${colorMap[o.logLevel]} m-1 flex gap-2 rounded-lg p-2`}>
-            <span>{iconMap[o.logLevel]}</span>
-            <span className="break-all font-mono text-[10px] leading-normal">
-              {o.message.split(/\n/).filter(Boolean).map(s => <>{s}<br /></>)}</span>
+            <pre>{iconMap[o.logLevel]}</pre>
+            <p className="break-all font-mono text-[10px] leading-normal">
+              {o.message.split(/\n/).filter(Boolean).map(s => <span className="mb-2 block text-[10px] leading-normal">{s}</span>)}
+            </p>
           </li>
         ))
       ) : (
