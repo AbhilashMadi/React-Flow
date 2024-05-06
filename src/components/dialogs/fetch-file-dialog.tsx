@@ -1,5 +1,6 @@
-import { useAppDispatch } from "@/hooks/state-hooks";
+import { useAppDispatch, useData } from "@/hooks/state-hooks";
 import { updateFlowData } from "@/store/reducers/flow-data-slice";
+import { LogLevels } from "@/types/context";
 import { Button } from "@ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@ui/dialog";
 import { Input } from "@ui/input";
@@ -13,16 +14,27 @@ interface IFetchFileDialogProps {
 
 const FetchFileDialog: FC<IFetchFileDialogProps> = (props) => {
   const { onOpenChange, open } = props;
+  const { generateLog } = useData();
   const dispatch = useAppDispatch();
 
   const handleFileSelect = (e: ChangeEvent<HTMLInputElement>): void => {
     try {
-      parser.parse(e.target.files?.[0] as File, {
+      const file = e.target.files?.[0];
+      parser.parse(file as File, {
         fastMode: true,
         header: true,
         complete: (data) => {
+          console.log(data)
           dispatch(updateFlowData(data));
           onOpenChange();
+          console.log(data);
+          generateLog(`${data.errors.length} meny rows are affected while parsing data`, LogLevels.WARNING)
+          generateLog(`successfully parsed data from file: ${file?.name ?? "--"}`, LogLevels.SUCCESS)
+          generateLog(`
+          file: ${file?.name ?? "--"} \n
+          columns: ${data.meta?.fields?.join(", ")} \n
+          rows: ${data.data.length}
+          `, LogLevels.INFO)
         },
       });
     } catch (error) {

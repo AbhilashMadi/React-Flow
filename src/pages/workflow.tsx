@@ -3,6 +3,7 @@ import { lazy, LazyExoticComponent, type FC } from "react";
 
 const FlowCanvas: LazyExoticComponent<FC> = lazy(() => import("@/components/flow-canvas"));
 const OperationDataList: LazyExoticComponent<FC> = lazy(() => import("@/components/lists/operation-data-list"));
+const LoggerWindow: LazyExoticComponent<FC> = lazy(() => import("@/components/logger-window"));
 
 const WorkFlow: FC = () => {
 
@@ -18,9 +19,7 @@ const WorkFlow: FC = () => {
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={25} maxSize={25} minSize={15}>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">Min Sider</span>
-          </div>
+          <LoggerWindow />
         </ResizablePanel>
       </ResizablePanelGroup >
     </ResizablePanel >

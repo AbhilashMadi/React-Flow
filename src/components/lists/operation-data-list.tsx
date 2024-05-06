@@ -73,7 +73,10 @@ const OperationDataList: FC = () => {
           {Cell}
         </FixedSizeGrid>
         : <div className="grid-center h-full">
-          <Grid2x2X size={50} className="text-secondary" />
+          <Grid2x2X
+            size={50}
+            className="text-secondary"
+            aria-label="No data available" />
         </div>
     }
   </div>);
