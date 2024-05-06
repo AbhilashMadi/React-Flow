@@ -73,6 +73,21 @@
   * {
     @apply border-border text-base;
   }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    @apply bg-secondary-foreground;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings:
