@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks";
 import { sortData } from "@/lib/sorters";
 import { cn } from "@/lib/utils";
 import { updateFlowData } from "@/store/reducers/flow-data-slice";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, Grid2x2X } from "lucide-react";
 import { useState, type FC } from "react";
 import { FixedSizeGrid } from "react-window";
 
@@ -60,16 +60,22 @@ const OperationDataList: FC = () => {
   };
 
   return (<div ref={containerRef} className="h-full">
-    <FixedSizeGrid
-      columnCount={filedata.meta?.fields?.length || 0}
-      columnWidth={150}
-      rowHeight={25}
-      height={height}
-      width={width}
-      rowCount={(filedata.data.length || 0) + 1
-      }>
-      {Cell}
-    </FixedSizeGrid>
+    {
+      filedata.data.length
+        ? <FixedSizeGrid
+          columnCount={filedata.meta?.fields?.length || 0}
+          columnWidth={150}
+          rowHeight={25}
+          height={height}
+          width={width}
+          rowCount={(filedata.data.length || 0) + 1
+          }>
+          {Cell}
+        </FixedSizeGrid>
+        : <div className="grid-center h-full">
+          <Grid2x2X size={50} className="text-secondary" />
+        </div>
+    }
   </div>);
 };
 

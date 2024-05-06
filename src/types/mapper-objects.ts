@@ -1,7 +1,6 @@
-import { ReactNode } from "react"
 
 export type Operation = {
-  icon: ReactNode;
+  icon: JSX.Element;
   label: string;
   explain: string;
   input: string[]

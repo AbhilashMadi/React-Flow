@@ -11,7 +11,7 @@ interface IOperationsDialog {
   onOpenChange: () => void;
 }
 
-const Operations: Operation[] = [
+const Operations: ReadonlyArray<Operation> = [
   {
     icon: <ListFilter size={18} />,
     label: "Filter",
