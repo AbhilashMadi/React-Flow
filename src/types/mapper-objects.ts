@@ -5,7 +5,21 @@ export type Operation = {
   explain: string;
   input: string[]
   result: string[];
-  onClick: () => void;
+  nodeName: CustomNodes;
+}
+
+export enum CustomNodes {
+  INITIAL_NODE = "initialNode",
+  FILTER_DATA_NODE = "filterDataNode",
+  MERGE_DATA_NODE = "mergeDataNode",
+  GROUPD_DATA_NODE = "groupDataNode",
+  SLICE_DATA_NODE = "sliceDataNode",
+  SORT_DATA_NODE = "sortDataNode",
+  REDUCE_VALUE_NODE = "reduceValueNode",
+  CONTAIN_DATA_NODE = "containDataNode",
+  DELETE_DATA_NODE = "deleteDataNode",
+  FIND_DATA_NODE = "findDataNode",
+  AGGREGATE_DATA_NODE = "aggregateDataNode",
 }
 
 export type JSONValue = string | number | boolean | null | JSONObject | JSONArray;

@@ -16,8 +16,6 @@ const OperationDataList: FC = () => {
   const { filedata } = useAppSelector(state => state.flowdata);
 
   const onSortClick = (col: string, order: typeof sortOrder) => {
-    console.log(filedata.data, col, order)
-
     dispatch(updateFlowData({
       ...filedata,
       data: sortData(filedata.data, col, order)

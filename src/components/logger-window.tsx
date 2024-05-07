@@ -1,10 +1,11 @@
 import { useData } from "@/hooks/state-hooks";
 import { LogLevels } from "@/types/context";
-import { CircleCheck, CircleXIcon, Info, TriangleAlert, SquareTerminal } from "lucide-react";
-import { FC, ReactNode } from "react";
+import { CircleCheck, CircleXIcon, Info, SquareTerminal, TriangleAlert } from "lucide-react";
+import { FC, ReactNode, useEffect, useRef } from "react";
 
 const LoggerWindow: FC = () => {
   const { logs } = useData();
+  const logsWindowRef = useRef<HTMLUListElement>(null);
 
   const colorMap: Readonly<{ [K in LogLevels]: string }> = {
     [LogLevels.ERROR]: "dar:bg-red-400/[0.1] bg-red-400/[0.5] dark:text-red-200 text-primary",
@@ -20,14 +21,20 @@ const LoggerWindow: FC = () => {
     [LogLevels.WARNING]: <TriangleAlert size={14} aria-label="Warning" />,
   } as const;
 
+  useEffect(() => {
+    if (logsWindowRef.current) {
+      logsWindowRef.current.scrollTop = logsWindowRef.current.scrollHeight;
+    }
+  }, [logs]);
+
   return (
-    <ul className="relative size-full overflow-y-scroll">
+    <ul className="relative size-full overflow-y-scroll" ref={logsWindowRef}>
       {logs.length ? (
-        logs.map((o) => (
-          <li key={o.time} className={`${colorMap[o.logLevel]} m-1 flex gap-2 rounded-lg p-2`}>
+        logs.map((o, i) => (
+          <li key={`${o.time}-${i}`} className={`${colorMap[o.logLevel]} m-1 flex gap-2 rounded-lg p-2`}>
             <pre>{iconMap[o.logLevel]}</pre>
             <p className="break-all font-mono text-[10px] leading-normal">
-              {o.message.split(/\n/).filter(Boolean).map(s => <span className="mb-2 block text-[10px] leading-normal">{s}</span>)}
+              {o.message.split(/\n/).filter(Boolean).map(s => <span className="mb-2 block text-[10px] leading-normal" key={`${o.time}-${s}`}>{s}</span>)}
             </p>
           </li>
         ))

@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit"
 
 /* reducers */
 import flowdata from "@/store/reducers/flow-data-slice"
+import flowNodes from "@/store/reducers/nodes-list-slice";
 
 export const store = configureStore({
   reducer: {
-    flowdata
+    flowdata,
+    flowNodes,
   },
 })
 

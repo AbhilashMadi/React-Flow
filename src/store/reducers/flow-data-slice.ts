@@ -2,15 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { ParseResult } from "papaparse";
 
 type IninitialState = {
-  filedata: ParseResult<object>;
+  filedata: ParseResult<object> & {
+    filename: string;
+  }
 }
 
 const initialState: IninitialState = {
   filedata: {
+    filename: "",
     data: [],
     errors: [],
     meta: {},
-  } as unknown as ParseResult<object>,
+  } as unknown as ParseResult<object> & {
+    filename: string;
+  },
 }
 
 const counterSlice = createSlice({

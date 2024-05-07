@@ -1,10 +1,15 @@
 import MutedText from "@/components/typography/muted-text";
+import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
+import { generateId } from "@/lib/generators";
 import { cn } from "@/lib/utils";
-import { type Operation } from "@/types/mapper-objects";
+import { setEdges, setNodes } from "@/store/reducers/nodes-list-slice";
+import { LogLevels } from "@/types/context";
+import { CustomNodes, type Operation } from "@/types/mapper-objects";
 import { buttonVariants } from "@ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
-import { ArrowUpDown, Group, ListFilter, ListPlus, TableRowsSplit } from "lucide-react";
+import { ArrowUpDown, Command, CopyCheck, FileSearch, Group, ListFilter, ListPlus, ListX, SquareMinus, TableRowsSplit } from "lucide-react";
 import { FC } from "react";
+import type { Edge, Node } from "reactflow";
 
 interface IOperationsDialog {
   open: boolean;
@@ -15,46 +20,111 @@ const Operations: ReadonlyArray<Operation> = [
   {
     icon: <ListFilter size={18} />,
     label: "Filter",
-    explain: "Filter a data set based on a given column name and value.",
-    input: ["Custom", "Falsy", "Truthy"],
-    onClick: () => null,
+    explain: "Filter a dataset based on a given column name and value.",
+    input: ["Column Name", "Filter Value"],
+    nodeName: CustomNodes.FILTER_DATA_NODE,
     result: [],
   },
   {
     icon: <ListPlus size={18} />,
     label: "Merge",
-    explain: "Merges two data sets based on the given column names.",
+    explain: "Merge two datasets based on the given column names.",
     input: [],
-    onClick: () => null,
+    nodeName: CustomNodes.MERGE_DATA_NODE,
     result: [],
   },
   {
     icon: <Group size={18} />,
     label: "Group",
-    explain: "Groups a data set based on a given column name.",
+    explain: "Group a dataset based on a given column name.",
+    nodeName: CustomNodes.GROUPD_DATA_NODE,
     input: [],
-    onClick: () => null,
     result: [],
   },
   {
     icon: <TableRowsSplit size={18} />,
     label: "Slice",
-    explain: "Slices a data set based on indices.",
-    input: [],
-    onClick: () => null,
+    explain: "Slice a dataset based on indices.",
+    input: ["Start Index", "End Index"],
+    nodeName: CustomNodes.SLICE_DATA_NODE,
     result: [],
   },
   {
     icon: <ArrowUpDown size={18} />,
     label: "Sort",
-    explain: "Sorts data based on a given column.",
-    input: [],
-    onClick: () => null,
+    explain: "Sort data based on a given column.",
+    nodeName: CustomNodes.SORT_DATA_NODE,
+    input: ["Column Name", "Sort Order"],
     result: [],
   },
+  {
+    icon: <SquareMinus size={18} />,
+    label: "Reduce",
+    explain: "Generate the total of a particular column.",
+    nodeName: CustomNodes.REDUCE_VALUE_NODE,
+    input: ["Column Name"],
+    result: ["Total"],
+  },
+  {
+    icon: <CopyCheck size={18} />,
+    label: "Check",
+    explain: "Check whether the object at the given index contains the specified value.",
+    nodeName: CustomNodes.CONTAIN_DATA_NODE,
+    input: ["Index"],
+    result: ["Text"],
+  },
+  {
+    icon: <ListX size={18} />,
+    label: "Delete",
+    explain: "Delete nodes from one index to another by providing the indices.",
+    nodeName: CustomNodes.DELETE_DATA_NODE,
+    input: ["From Index", "To Index"],
+    result: ["Text"],
+  },
+  {
+    icon: <FileSearch size={18} />,
+    label: "Find",
+    explain: "Find the first or last match of a particular document in the dataset.",
+    nodeName: CustomNodes.FIND_DATA_NODE,
+    input: ["Search String"],
+    result: ["Matching Object"],
+  },
+  {
+    icon: <Command size={18} />,
+    label: "Aggregation",
+    explain: "Aggregate the data to match the given condition. For example: 'key:value,key1:value1'.",
+    nodeName: CustomNodes.AGGREGATE_DATA_NODE,
+    input: ["Aggregation Condition"],
+    result: ["Array of Objects"],
+  }
 ];
 
+
 const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
+  const { generateLog } = useData();
+  const { nodes, edges } = useAppSelector((s) => s.flowNodes);
+  const dispatch = useAppDispatch();
+
+  const onOperationSelect = (operation: Operation): void => {
+    const { position: { x, y } } = nodes.at(-1)!
+    const newOperationNode: Node = {
+      id: generateId(),
+      data: "",
+      type: operation.nodeName,
+      position: { x: x + 200, y },
+    };
+    dispatch(setNodes([...nodes, newOperationNode]));
+
+    const lastNode = nodes.at(-1)!;
+    const newEdge: Edge = {
+      id: generateId(),
+      source: lastNode.id,
+      target: newOperationNode.id,
+    };
+    dispatch(setEdges([...edges, newEdge]));
+    onOpenChange();
+    generateLog(`New Operation added!\n** ${operation.explain}`, LogLevels.SUCCESS);
+  }
 
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent className="min-w-[700px]">
@@ -63,7 +133,7 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
       </DialogHeader>
       <div className="grid grid-cols-3 gap-3 [&>*]:p-2">
         {Operations.map((o, i) => {
-          return <div key={i} className="cursor-grab rounded-lg border border-muted transition-all hover:scale-105 hover:border-primary hover:shadow-lg">
+          return <div key={i} className="cursor-grab rounded-lg border border-muted transition-all hover:scale-105 hover:border-primary hover:shadow-lg" onClick={() => onOperationSelect(o)}>
             <div className="mb-2 flex items-center">
               <span className={cn(buttonVariants({ size: "icon" }), "size-8 rounded-lg")}>{o.icon}</span>
               <span className="ml-2">{o.label}</span>

@@ -21,7 +21,7 @@ const FetchFileDialog: FC<IFetchFileDialogProps> = (props) => {
     try {
       const file = e.target.files?.[0];
       parser.parse(file as File, {
-        fastMode: true,
+        // fastMode: true,
         header: true,
         complete: (data) => {
           console.log(data)
@@ -45,7 +45,7 @@ const FetchFileDialog: FC<IFetchFileDialogProps> = (props) => {
   const handleLoadSampleData = (): void => {
     try {
       parser.parse("https://upnow-prod.ff45e40d1a1c8f7e7de4e976d0c9e555.r2.cloudflarestorage.com/ZqvOMHRZqqYTv8IVvwesDk45ZWu2/a1541056-69ff-4b5d-b866-6ad289033f99?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=cdd12e35bbd220303957dc5603a4cc8e%2F20240506%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20240506T031955Z&X-Amz-Expires=43200&X-Amz-Signature=97ce27de3923a563f9aab5b05e21f0f06a7e80d7fbf3a6d03517db51ae993c0b&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22electronic-card-transactions.csv%22", {
-        fastMode: true,
+        // fastMode: true,
         header: true,
         download: true,
         complete: (res) => {
