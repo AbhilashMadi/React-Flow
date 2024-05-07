@@ -13,7 +13,7 @@ const initialState: IninitialState = {
     id: generateId(),
     type: CustomNodes.INITIAL_NODE,
     data: "",
-    position: { x: 200, y: 200 }
+    position: { x: 200, y: 200 },
   }],
   edges: [],
 }

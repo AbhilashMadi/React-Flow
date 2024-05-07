@@ -1,16 +1,17 @@
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { updateFlowData } from "@/store/reducers/flow-data-slice";
 import { LogLevels } from "@/types/context";
-import { Button } from "@ui/button";
+import { Button, buttonVariants } from "@ui/button";
 import { File } from "lucide-react";
 import parser from "papaparse";
 import { ChangeEvent, FC, memo, useRef } from "react";
-import { Handle, NodeProps, Position } from "reactflow";
+import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
 
 const InitialNode: FC<NodeProps> = memo((props) => {
   const dispatch = useAppDispatch();
   const { filedata } = useAppSelector((state) => state.flowdata);
   const { generateLog } = useData();
+  console.log(props);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,16 +44,19 @@ const InitialNode: FC<NodeProps> = memo((props) => {
     }
   };
 
-  return (<div className="text-[10px]">
+  return (<div>
     <input type="file" accept=".csv" className="hidden" ref={inputRef} onChange={handleFileChange} />
     {filedata.filename
-      ? <Button size="sm" title={filedata.filename}>
-        Documents: {filedata.data.length}
-      </Button>
+      ? <div title={filedata.filename} className={buttonVariants({ variant: "default" })}>
+        {filedata.filename}
+      </div>
       : <Button size="sm" onClick={handleSelectFile}>
         <File size={14} className="mr-1" />Select File
       </Button>}
-    <Handle position={Position.Right} type="source" />
+    {filedata.filename && <NodeToolbar position={Position.Bottom}>
+      <pre className="text-[10px]">[DATASET]: {filedata.data.length} | {filedata.meta?.fields?.length} columns</pre>
+    </NodeToolbar>}
+    <Handle position={Position.Right} type="source" className="size-2 bg-purple-500" />
   </div>);
 });
 
