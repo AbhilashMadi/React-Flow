@@ -1,6 +1,7 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks";
+import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
+import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
 import { CirclePlay, RotateCcw } from "lucide-react";
 import { FC, memo } from "react";
@@ -10,6 +11,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
   const { filedata } = useAppSelector((s) => s.flowdata);
   const { nodes } = useAppSelector((s) => s.flowNodes);
+  const { generateLog } = useData();
 
   const dispatch = useAppDispatch();
 
@@ -24,58 +26,64 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
     },
     onSubmit: (values) => {
       const { columnOne, columnTwo, mergeAs, separator, operator } = values;
+      try {
+        const nodeIndex = nodes.findIndex(n => n.id === id);
+        if (nodeIndex === -1) return;
 
-      const nodeIndex = nodes.findIndex(n => n.id === id);
-      if (nodeIndex === -1) return;
-
-      const newData = nodes[nodeIndex].data.map((o: any) => {
-        let finalVal: string | number = "";
         let col: string = `${columnOne} ${separator} ${columnTwo}`
+        const newData = nodes[nodeIndex].data.map((o: any) => {
+          let finalVal: string | number = "";
 
-        const valueOne = o[columnOne];
-        const valueTwo = o[columnTwo];
+          const valueOne = o[columnOne];
+          const valueTwo = o[columnTwo];
 
-        if (mergeAs === "asString") {
-          finalVal = `${valueOne}${separator}${valueTwo}`;
-        }
-
-        if (mergeAs === "asNumber") {
-          const a = Number(valueOne) || 0;
-          const b = Number(valueTwo) || 0;
-          col = `${columnOne} ${operator} ${columnTwo}`
-
-          switch (operator) {
-            case "+":
-              finalVal = a + b;
-              break;
-            case "-":
-              finalVal = a - b;
-              break;
-            case "/":
-              finalVal = a / b;
-              break;
-            case "%":
-              finalVal = a % b;
-              break;
-            case "*":
-              finalVal = a * b;
-              break;
-            default:
-              finalVal = 0;
-              break;
+          if (mergeAs === "asString") {
+            finalVal = `${valueOne}${separator}${valueTwo}`;
           }
-          console.log(a, b, finalVal);
-        }
 
-        return { ...o, [col]: finalVal };
-      });
+          if (mergeAs === "asNumber") {
+            const a = Number(valueOne) || 0;
+            const b = Number(valueTwo) || 0;
+            col = `${columnOne} ${operator} ${columnTwo}`
 
-      dispatch(updateCurrentList(newData));
-      dispatch(setNodes([
-        ...nodes.slice(0, nodeIndex),
-        { ...nodes[nodeIndex], data: newData },
-        ...nodes.slice(nodeIndex + 1),
-      ]));
+            switch (operator) {
+              case "+":
+                finalVal = a + b;
+                break;
+              case "-":
+                finalVal = a - b;
+                break;
+              case "/":
+                finalVal = a / b;
+                break;
+              case "%":
+                finalVal = a % b;
+                break;
+              case "*":
+                finalVal = a * b;
+                break;
+              default:
+                finalVal = 0;
+                break;
+            }
+          }
+
+          return { ...o, [col]: finalVal };
+        });
+
+        dispatch(updateCurrentList(newData));
+        dispatch(setNodes([
+          ...nodes.slice(0, nodeIndex),
+          { ...nodes[nodeIndex], data: newData },
+          ...nodes.slice(nodeIndex + 1),
+        ]));
+
+        generateLog(`added new column to data DATASET: ${col}\n
+      merged columns as: ${mergeAs}`, LogLevels.SUCCESS)
+      } catch (error) {
+        generateLog(`something went wrong while merging ${columnOne} and ${columnTwo} \n
+        ERROR: ${error}`, LogLevels.ERROR);
+      }
     }
   })
 
