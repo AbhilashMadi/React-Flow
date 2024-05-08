@@ -31,14 +31,15 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
     return numSeries;
   }) ?? [], [filedata]);
 
-  const reuducerFormik = useFormik<{ column: string, direction: "ttb" | "btt" }>({
+  const reuducerFormik = useFormik<{ column: string, direction: "ttb" | "btt", performOn: "previous" | "wholeData" }>({
     enableReinitialize: true,
     initialValues: {
       column: numberCols[0] ?? "",
       direction: "ttb",
+      performOn: "wholeData",
     },
     onSubmit: (values) => {
-      const { column, direction } = values;
+      const { column, direction, performOn } = values;
 
       try {
         const nodeIndex = nodes.findIndex(r => r.id === id);
@@ -48,11 +49,12 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         }
 
         let sum = 0;
+        const dataset = performOn === "previous" ? nodes[nodeIndex - 1].data : filedata.data
 
         if (direction === "btt") {
-          sum = nodes[nodeIndex - 1].data.reduceRight((total: number, curr) => total + (Number(curr[column]) || 0), 0);
+          sum = dataset.reduceRight((total: number, curr) => total + (Number(curr[column]) || 0), 0);
         } else {
-          sum = nodes[nodeIndex - 1].data.reduce((total: number, curr) => total + (Number(curr[column]) || 0), 0);
+          sum = dataset.reduce((total: number, curr) => total + (Number(curr[column]) || 0), 0);
         }
 
         const currdata = {
@@ -106,6 +108,15 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         <option className="text-xs" disabled>select direction</option>
         <option value="ttb" className="text-xs">from top to bottom</option>
         <option value="btt" className="text-xs">from bottom to top</option>
+      </select>
+      <select
+        name="performOn"
+        onChange={reuducerFormik.handleChange}
+        value={reuducerFormik.values.performOn}
+        className="border text-xs">
+        <option className="text-xs" disabled>selection dataset</option>
+        <option value="previous" className="text-xs">dataset - previous</option>
+        <option value="wholeData" className="text-xs">dataset - whole file</option>
       </select>
     </form>
     <Handle position={Position.Left} type="target" />
