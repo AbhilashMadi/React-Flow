@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks"
+import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks"
 import { FC, memo } from "react"
 import { type NodeProps, Position, Handle } from "reactflow"
 import CustomNodeTooltip from "./custom-tooltip";
@@ -6,15 +6,13 @@ import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { useFormik } from "formik";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { sortData } from "@/lib/sorters";
+import { LogLevels } from "@/types/context";
 
 const SortDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
   const { nodes } = useAppSelector((s) => s.flowNodes);
   const dispatch = useAppDispatch();
-
-  const onSelfDelete = (): void => {
-    dispatch(setNodes(nodes.filter(n => n.id !== id)));
-  }
+  const { generateLog } = useData();
 
   const sortFormik = useFormik<{
     column: string;
@@ -38,18 +36,27 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
           ...nodes.slice(nodeIndex + 1),
         ]))
         dispatch(updateCurrentList(sortedData));
-
+        generateLog(`sorted [DATASET]: ${data.length}, order: ${order === "asc" ? "ascending ↑" : "descending ↓"}`, LogLevels.INFO);
       } catch (error) {
         console.log(error);
       }
     }
   })
 
-  return <div className="bg-primary p-2">
-    <CustomNodeTooltip onClearForm={sortFormik.resetForm} onDelete={onSelfDelete} onRun={sortFormik.handleSubmit} />
+  const onSelfDelete = (): void => {
+    dispatch(setNodes(nodes.filter(n => n.id !== id)));
+    dispatch(updateCurrentList([]));
+  }
+
+  return <div className="rounded bg-primary p-2">
+    <CustomNodeTooltip
+      onClearForm={sortFormik.resetForm}
+      onDelete={onSelfDelete}
+      onRun={sortFormik.handleSubmit}
+      disableRun={!sortFormik.values.column || !sortFormik.values.order}
+      node="Sort" />
     <form className="flex flex-col gap-2 text-secondary">
       <select name="column" onChange={sortFormik.handleChange} value={sortFormik.values.column} className="border text-xs">
-        <option className="text-xs">column</option>
         {Object.keys(data[0] ?? {}).map(s => <option value={s} className="text-xs">{s}</option>)}
       </select>
       <select name="order" onChange={sortFormik.handleChange} value={sortFormik.values.order} className="border text-xs">

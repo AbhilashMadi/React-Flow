@@ -74,17 +74,18 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
 
   const deleteSelf = (): void => {
     dispatch(setNodes(nodes.filter((n) => n.id !== id)));
+    dispatch(updateCurrentList([]));
   }
 
-  return <div className={"bg-primary p-2 text-secondary"}>
+  return <div className="rounded bg-primary p-2 text-secondary">
     <CustomTooltip
       onDelete={deleteSelf}
       onClearForm={filterFormik.resetForm}
       onRun={filterFormik.submitForm}
       disableRun={!filterFormik.values.column || !filterFormik.values.criteria}
+      node={"Filter"}
     />
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
-      <div>Filter:</div>
       <select onChange={filterFormik.handleChange} name={"column"} className="border" value={filterFormik.values.column}>
         <option className="text-xs">Select a column</option>
         {filedata.meta?.fields?.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}

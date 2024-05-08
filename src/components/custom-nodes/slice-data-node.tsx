@@ -14,10 +14,6 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
   const { filedata } = useAppSelector((s) => s.flowdata);
   const { generateLog } = useData();
 
-  const onSelfDelet = (): void => {
-    dispatch(setNodes(nodes.filter(n => n.id !== id)))
-  }
-
   const sliceFormik = useFormik<{
     start: number;
     end: number;
@@ -55,8 +51,17 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
     }
   })
 
-  return <div className="bg-primary p-2 text-[10px]">
-    <CustomNodeTooltip onClearForm={sliceFormik.resetForm} onDelete={onSelfDelet} onRun={sliceFormik.handleSubmit} />
+  const onSelfDelete = (): void => {
+    dispatch(setNodes(nodes.filter(n => n.id !== id)));
+    dispatch(updateCurrentList([]));
+  }
+
+  return <div className="rounded bg-primary p-2 text-[10px]">
+    <CustomNodeTooltip
+      onClearForm={sliceFormik.resetForm}
+      onDelete={onSelfDelete}
+      onRun={sliceFormik.handleSubmit}
+      node="Slice" />
     <form className="flex flex-col gap-2 text-secondary">
       <fieldset>
         <input
@@ -79,7 +84,7 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
           max={data.length}
           className="w-24 rounded border p-1 text-xs" />
       </fieldset>
-      <fieldset>
+      <fieldset className="flex items-center gap-1">
         <label className="text-xs">include last one: </label>
         <input type="checkbox" name="inclusive" onChange={sliceFormik.handleChange} />
       </fieldset>

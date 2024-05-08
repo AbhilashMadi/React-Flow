@@ -88,18 +88,20 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
   })
 
   const onSelfDelete = (): void => {
-    dispatch(setNodes(nodes.filter(n => n.id !== id)))
+    dispatch(setNodes(nodes.filter(n => n.id !== id)));
+    dispatch(updateCurrentList([]));
   }
 
   const availableColumns = filedata.meta?.fields || [];
 
   return (
-    <div className="bg-primary p-2 text-secondary">
+    <div className="rounded bg-primary p-2 text-secondary">
       <CustomNodeTooltip
         onDelete={onSelfDelete}
         onClearForm={mergeFormik.resetForm}
         onRun={mergeFormik.submitForm}
-        disableRun={!mergeFormik.values.columnOne || !mergeFormik.values.columnTwo || !mergeFormik.values.mergeAs} />
+        disableRun={!mergeFormik.values.columnOne || !mergeFormik.values.columnTwo || !mergeFormik.values.mergeAs}
+        node={"Merge"} />
       <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
         <div>Merge: </div>
         <select
