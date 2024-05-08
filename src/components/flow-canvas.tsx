@@ -2,10 +2,13 @@ import { Button } from "@ui/button";
 import { GitBranchPlus } from "lucide-react";
 import { FC, lazy, SyntheticEvent, useCallback, useState } from "react";
 import ReactFlow, {
+  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   Background,
+  Connection,
   Controls,
+  Edge,
   EdgeChange,
   NodeChange,
   Panel,
@@ -66,9 +69,9 @@ const FlowCanvas: FC = () => {
     dispatch(updateCurrentList(node.data))
   }, [dispatch]);
 
-  // const onConnect = useCallback((connection: Edge | Connection) => {
-  //   dispatch(setEdges(addEdge(connection, edges)));
-  // }, [dispatch, edges]);
+  const onConnect = useCallback((connection: Edge | Connection) => {
+    dispatch(setEdges(addEdge(connection, edges)));
+  }, [dispatch, edges]);
 
   const handleAddNodeDialog = useCallback((): void => {
     setOpenModal(!openModal);
@@ -85,6 +88,7 @@ const FlowCanvas: FC = () => {
       nodeTypes={nodeTypes}
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
+      onConnect={onConnect}
       fitView={false}>
       <Background />
       <Controls />

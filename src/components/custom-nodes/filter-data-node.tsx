@@ -3,9 +3,9 @@ import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
-import { CirclePlay, RotateCcw } from "lucide-react";
 import { FC, memo } from "react";
 import { Handle, NodeToolbar, Position, type NodeProps } from "reactflow";
+import CustomTooltip from "./custom-tooltip";
 
 const FilterDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -72,16 +72,17 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
     },
   })
 
-  return <div className={"bg-primary p-2 text-secondary"}>
-    <NodeToolbar position={Position.Top} className="[&>button]:grid-center flex gap-1 text-secondary [&>button]:size-8 [&>button]:bg-primary">
-      <button title="run operation" onClick={filterFormik.submitForm} disabled={!filterFormik.values.column || !filterFormik.values.criteria} className="disabled:opacity-50">
-        <CirclePlay size={14} />
-      </button>
-      <button type="reset" title="reset form" onClick={filterFormik.handleReset}>
-        <RotateCcw size={14} />
-      </button>
-    </NodeToolbar>
+  const deleteSelf = (): void => {
+    dispatch(setNodes(nodes.filter((n) => n.id !== id)));
+  }
 
+  return <div className={"bg-primary p-2 text-secondary"}>
+    <CustomTooltip
+      onDelete={deleteSelf}
+      onClearForm={filterFormik.resetForm}
+      onRun={filterFormik.submitForm}
+      disableRun={!filterFormik.values.column || !filterFormik.values.criteria}
+    />
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
       <div>Filter:</div>
       <select onChange={filterFormik.handleChange} name={"column"} className="border" value={filterFormik.values.column}>

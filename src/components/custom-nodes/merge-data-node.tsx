@@ -3,9 +3,9 @@ import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
-import { CirclePlay, RotateCcw } from "lucide-react";
 import { FC, memo } from "react";
 import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
+import CustomNodeTooltip from "./custom-tooltip";
 
 const MergeDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -87,24 +87,19 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
     }
   })
 
+  const onSelfDelete = (): void => {
+    dispatch(setNodes(nodes.filter(n => n.id !== id)))
+  }
+
   const availableColumns = filedata.meta?.fields || [];
-  console.log(mergeFormik.values)
 
   return (
     <div className="bg-primary p-2 text-secondary">
-      <NodeToolbar position={Position.Top} className="border">
-        <div className="[&>button]:grid-center flex gap-1 text-secondary [&>button]:size-8 [&>button]:bg-primary">
-          <button type="reset" title="reset form" onClick={mergeFormik.handleReset}>
-            <RotateCcw size={14} />
-          </button>
-          <button title="run operation"
-            onClick={mergeFormik.submitForm}
-            disabled={!mergeFormik.values.columnOne || !mergeFormik.values.columnTwo || !mergeFormik.values.mergeAs}
-            className="disabled:opacity-50">
-            <CirclePlay size={14} />
-          </button>
-        </div>
-      </NodeToolbar>
+      <CustomNodeTooltip
+        onDelete={onSelfDelete}
+        onClearForm={mergeFormik.resetForm}
+        onRun={mergeFormik.submitForm}
+        disableRun={!mergeFormik.values.columnOne || !mergeFormik.values.columnTwo || !mergeFormik.values.mergeAs} />
       <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
         <div>Merge: </div>
         <select
