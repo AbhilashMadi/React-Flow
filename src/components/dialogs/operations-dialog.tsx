@@ -106,21 +106,23 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
   const dispatch = useAppDispatch();
 
   const onOperationSelect = (operation: Operation): void => {
-    const { position: { x, y } } = nodes.at(-1)!
+    const { position: { x, y }, id, data } = nodes.at(-1)!;
+
     const newOperationNode: Node = {
       id: generateId(),
-      data: "",
+      data,
       type: operation.nodeName,
       position: { x: x + 200, y: nodes.length === 1 ? 300 : y },
     };
+
     dispatch(setNodes([...nodes, newOperationNode]));
 
-    const lastNode = nodes.at(-1)!;
     const newEdge: Edge = {
       id: generateId(),
-      source: lastNode.id,
+      source: id,
       target: newOperationNode.id,
     };
+
     dispatch(setEdges([...edges, newEdge]));
     onOpenChange();
     generateLog(`New Operation added!\n** ${operation.explain}`, LogLevels.SUCCESS);
