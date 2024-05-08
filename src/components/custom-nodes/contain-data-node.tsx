@@ -13,6 +13,8 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
 
   const dispatch = useAppDispatch();
   const { nodes } = useAppSelector(state => state.flowNodes);
+  const { filedata } = useAppSelector(state => state.flowdata);
+  const availColumns = filedata.meta?.fields ?? [];
 
   const containNodeFormik = useFormik<{
     column: string;
@@ -21,7 +23,7 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
   }>({
     enableReinitialize: true,
     initialValues: {
-      column: "",
+      column: availColumns[0] ?? "",
       value: "",
       index: 0,
     },
@@ -65,10 +67,14 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
       onRun={containNodeFormik.handleSubmit} />
 
     <form className="flex w-40 flex-col gap-1 text-xs">
-      <input type="text" placeholder="column" className="rounded border px-1"
-        onChange={containNodeFormik.handleChange}
+      <select
         name="column"
-        value={containNodeFormik.values.column} />
+        onChange={containNodeFormik.handleChange}
+        value={containNodeFormik.values.column}
+        className="rounded border">
+        <option disabled className="text-xs">column</option>
+        {availColumns.map(s => <option value={s} className="text-xs">{s}</option>)}
+      </select>
       <input type="text" placeholder="value" className="rounded border px-1"
         value={containNodeFormik.values.value}
         name="value"
