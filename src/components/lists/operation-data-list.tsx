@@ -14,7 +14,8 @@ const OperationDataList: FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "dsc">("asc");
   const [sortedCol, setSortedCol] = useState<string>("");
 
-  const { filedata, currentlist } = useAppSelector(state => state.flowdata);
+  const { currentlist } = useAppSelector(state => state.flowdata);
+  const currentDataColumns = Object.keys(currentlist[0] ?? {});
 
   const onSortClick = (col: string, order: typeof sortOrder) => {
     dispatch(updateCurrentList(sortData(currentlist, col, order)));
@@ -25,7 +26,7 @@ const OperationDataList: FC = () => {
 
   const Cell: FC<{ rowIndex: number; columnIndex: number; style: React.CSSProperties }> = ({ rowIndex, columnIndex, style }) => {
     const isHeaderRow = rowIndex === 0;
-    const headerCol = filedata.meta?.fields[columnIndex];
+    const headerCol = currentDataColumns[columnIndex];
 
     const cellContent = isHeaderRow
       ? <>{headerCol || "--"}
@@ -57,7 +58,7 @@ const OperationDataList: FC = () => {
     {
       currentlist.length
         ? <FixedSizeGrid
-          columnCount={filedata.meta?.fields?.length || 0}
+          columnCount={currentDataColumns.length || 0}
           columnWidth={150}
           rowHeight={25}
           height={height}

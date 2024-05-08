@@ -38,7 +38,7 @@ const InitialNode: FC<NodeProps> = memo(() => {
             data: res.data,
           }]));
 
-          generateLog(`${res.errors.length} meny rows are affected while parsing data`, LogLevels.WARNING)
+          generateLog(`${res.errors.length} rows are affected while parsing data`, LogLevels.WARNING)
           generateLog(`successfully parsed data from file: ${filename ?? "--"}`, LogLevels.SUCCESS)
           generateLog(`
           file: ${filename ?? "--"} \n

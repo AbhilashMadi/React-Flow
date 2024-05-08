@@ -2,9 +2,8 @@ import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
-import { Button } from "@ui/button";
 import { useFormik } from "formik";
-import { CirclePlay } from "lucide-react";
+import { CirclePlay, RotateCcw } from "lucide-react";
 import { FC, memo } from "react";
 import { Handle, NodeToolbar, Position, type NodeProps } from "reactflow";
 
@@ -47,7 +46,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
               case "text doesn't includes":
                 return !o[column].includes(condition);
               case "data is not empty or null":
-                return o[column] || o[column] !== null;
+                return o[column] && o[column] !== null;
               case "data matches regex":
                 return new RegExp(condition).test(o[column]);
               default:
@@ -74,27 +73,30 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
   })
 
   return <div className={"bg-primary p-2 text-secondary"}>
-    <NodeToolbar position={Position.Bottom} className="border">
-      <Button size={"icon"} type="button" onClick={filterFormik.submitForm} disabled={!filterFormik.values.column || !filterFormik.values.condition || !filterFormik.values.criteria}>
+    <NodeToolbar position={Position.Top} className="[&>button]:grid-center flex gap-1 text-secondary [&>button]:size-8 [&>button]:bg-primary">
+      <button title="run operation" onClick={filterFormik.submitForm} disabled={!filterFormik.values.column || !filterFormik.values.criteria} className="disabled:opacity-50">
         <CirclePlay size={14} />
-      </Button>
+      </button>
+      <button type="reset" title="reset form" onClick={filterFormik.handleReset}>
+        <RotateCcw size={14} />
+      </button>
     </NodeToolbar>
 
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
       <div>Filter:</div>
-      <select onChange={filterFormik.handleChange} name={"column"} className="border">
-        <option>Select a column</option>
-        {filedata.meta?.fields?.map(s => <option value={s} key={s}>{s}</option>)}
+      <select onChange={filterFormik.handleChange} name={"column"} className="border" value={filterFormik.values.column}>
+        <option className="text-xs">Select a column</option>
+        {filedata.meta?.fields?.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
 
-      <select onChange={filterFormik.handleChange} name={"criteria"} className="border">
-        <option>Select a criteria</option>
-        <option value="text is exactly">text is exactly</option>
-        <option value="text is not exactly">text is not exactly</option>
-        <option value="text includes">text includes</option>
-        <option value="text doesn't includes">text doesn't includes</option>
-        <option value="data is not empty or null">data is not empty or null</option>
-        <option value="data matches regex">data matches regex</option>
+      <select onChange={filterFormik.handleChange} name={"criteria"} className="border" value={filterFormik.values.criteria}>
+        <option className="text-xs">Select a criteria</option>
+        <option value="text is exactly" className="text-xs">text is exactly</option>
+        <option value="text is not exactly" className="text-xs">text is not exactly</option>
+        <option value="text includes" className="text-xs">text includes</option>
+        <option value="text doesn't includes" className="text-xs">text doesn't includes</option>
+        <option value="data is not empty or null" className="text-xs">data is not empty or null</option>
+        <option value="data matches regex" className="text-xs">data matches regex</option>
       </select>
 
       <input
@@ -107,6 +109,9 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
 
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <NodeToolbar position={Position.Bottom}>
+      <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
+    </NodeToolbar>
   </div>
 })
 
