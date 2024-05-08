@@ -63,7 +63,7 @@ const OperationDataList: FC = () => {
           rowHeight={25}
           height={height}
           width={width}
-          rowCount={currentlist.length || 0}>
+          rowCount={currentlist.length + 1 || 0}>
           {Cell}
         </FixedSizeGrid>
         : <div className="grid-center h-full">

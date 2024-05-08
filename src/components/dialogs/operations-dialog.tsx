@@ -121,6 +121,7 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
       id: generateId(),
       source: id,
       target: newOperationNode.id,
+      animated: true,
     };
 
     dispatch(setEdges([...edges, newEdge]));

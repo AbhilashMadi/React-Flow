@@ -95,7 +95,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
   const availableColumns = filedata.meta?.fields || [];
 
   return (
-    <div className="rounded bg-primary p-2 text-secondary">
+    <div className="rounded bg-primary p-2">
       <CustomNodeTooltip
         onDelete={onSelfDelete}
         onClearForm={mergeFormik.resetForm}
@@ -103,7 +103,6 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
         disableRun={!mergeFormik.values.columnOne || !mergeFormik.values.columnTwo || !mergeFormik.values.mergeAs}
         node={"Merge"} />
       <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
-        <div>Merge: </div>
         <select
           className="border"
           onChange={mergeFormik.handleChange}
