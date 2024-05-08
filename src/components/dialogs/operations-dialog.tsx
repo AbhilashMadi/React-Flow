@@ -129,15 +129,15 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
     const newEdge: Edge = {
       id: generateId(),
       source: id,
-      target: [
+      target: newOperationNode.id,
+      animated: [
         CustomNodes.FILTER_DATA_NODE,
         CustomNodes.MERGE_DATA_NODE,
         CustomNodes.SLICE_DATA_NODE,
         CustomNodes.SORT_DATA_NODE,
         CustomNodes.DELETE_DATA_NODE,
         CustomNodes.AGGREGATE_DATA_NODE
-      ].includes(operation.nodeName) ? newOperationNode.id : "",
-      animated: true,
+      ].includes(operation.nodeName),
     };
 
     dispatch(setEdges([...edges, newEdge]));
