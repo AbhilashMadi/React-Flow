@@ -1,6 +1,6 @@
 import { Button } from "@ui/button";
 import { GitBranchPlus } from "lucide-react";
-import { FC, lazy, useCallback, useState } from "react";
+import { FC, lazy, SyntheticEvent, useCallback, useState } from "react";
 import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
@@ -8,7 +8,8 @@ import ReactFlow, {
   Controls,
   EdgeChange,
   NodeChange,
-  Panel
+  Panel,
+  type Node
 } from "reactflow";
 
 import ThemeSwitch from "@/components/common/theme-switch";
@@ -30,6 +31,7 @@ import ReduceValueNode from "@/components/custom-nodes/reduce-value-node";
 import SliceDataNode from "@/components/custom-nodes/slice-data-node";
 import SortDataNode from "@/components/custom-nodes/sort-data-node";
 import { setEdges, setNodes } from "@/store/reducers/nodes-list-slice";
+import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 
 //custom nodes
 const nodeTypes = {
@@ -60,6 +62,10 @@ const FlowCanvas: FC = () => {
     dispatch(setEdges(applyEdgeChanges(changes, edges)))
   }, [dispatch, edges]);
 
+  const onNodeClick = useCallback((_: SyntheticEvent, node: Node) => {
+    dispatch(updateCurrentList(node.data))
+  }, [dispatch]);
+
   // const onConnect = useCallback((connection: Edge | Connection) => {
   //   dispatch(setEdges(addEdge(connection, edges)));
   // }, [dispatch, edges]);
@@ -78,7 +84,7 @@ const FlowCanvas: FC = () => {
       onNodesChange={onNodesChange}
       nodeTypes={nodeTypes}
       onEdgesChange={onEdgesChange}
-      // onConnect={onConnect}
+      onNodeClick={onNodeClick}
       fitView={false}>
       <Background />
       <Controls />

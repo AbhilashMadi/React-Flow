@@ -4,7 +4,8 @@ import type { ParseResult } from "papaparse";
 type IninitialState = {
   filedata: ParseResult<object> & {
     filename: string;
-  }
+  };
+  currentlist: object[];
 }
 
 const initialState: IninitialState = {
@@ -16,15 +17,17 @@ const initialState: IninitialState = {
   } as unknown as ParseResult<object> & {
     filename: string;
   },
+  currentlist: []
 }
 
 const counterSlice = createSlice({
   name: "fileData",
   initialState,
   reducers: {
-    updateFlowData: (state, action) => ({ ...state, filedata: action.payload }),
+    updateFlowData: (state, action) => ({ ...state, filedata: action.payload, currentlist: action.payload }),
+    updateCurrentList: (state, action) => ({ ...state, currentlist: action.payload }),
   }
 })
 
-export const { updateFlowData } = counterSlice.actions;
+export const { updateFlowData, updateCurrentList } = counterSlice.actions;
 export default counterSlice.reducer;

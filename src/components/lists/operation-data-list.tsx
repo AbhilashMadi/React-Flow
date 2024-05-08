@@ -2,7 +2,7 @@ import useAutoSizer from "@/hooks/auto-sizer";
 import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks";
 import { sortData } from "@/lib/sorters";
 import { cn } from "@/lib/utils";
-import { updateFlowData } from "@/store/reducers/flow-data-slice";
+import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { ArrowDown, ArrowUp, Grid2x2X } from "lucide-react";
 import { useState, type FC } from "react";
 import { FixedSizeGrid } from "react-window";
@@ -13,17 +13,13 @@ const OperationDataList: FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "dsc">("asc");
   const [sortedCol, setSortedCol] = useState<string>("");
 
-  const { filedata } = useAppSelector(state => state.flowdata);
+  const { filedata, currentlist } = useAppSelector(state => state.flowdata);
 
   const onSortClick = (col: string, order: typeof sortOrder) => {
-    dispatch(updateFlowData({
-      ...filedata,
-      data: sortData(filedata.data, col, order)
-    }));
+    dispatch(updateCurrentList(sortData(currentlist, col, order)));
 
     setSortOrder(order);
     setSortedCol(col);
-
   };
 
 
@@ -45,7 +41,7 @@ const OperationDataList: FC = () => {
             aria-label="Sort column in ascending order"
             onClick={() => { onSortClick(headerCol, "asc") }} />}
       </>
-      : filedata.data[rowIndex - 1]?.[filedata.meta?.fields[columnIndex]] || "--";
+      : currentlist[rowIndex - 1]?.[filedata.meta?.fields[columnIndex]] || "--";
 
     return (
       <div style={style} className={cn(isHeaderRow
@@ -59,15 +55,14 @@ const OperationDataList: FC = () => {
 
   return (<div ref={containerRef} className="h-full">
     {
-      filedata.data.length
+      currentlist.length
         ? <FixedSizeGrid
           columnCount={filedata.meta?.fields?.length || 0}
           columnWidth={150}
           rowHeight={25}
           height={height}
           width={width}
-          rowCount={(filedata.data.length || 0) + 1
-          }>
+          rowCount={(currentlist.length || 0) + 1}>
           {Cell}
         </FixedSizeGrid>
         : <div className="grid-center h-full">

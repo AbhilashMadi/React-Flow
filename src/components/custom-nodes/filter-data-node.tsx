@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
+import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { Button } from "@ui/button";
@@ -32,7 +33,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
       const nodeIndex = nodes.findIndex((n) => n.id === id);
 
       if (nodeIndex !== -1) {
-        dispatch(setNodes([
+        const matchedNodes = [
           ...nodes.slice(0, nodeIndex),
           {
             ...nodes[nodeIndex], data: data.filter((o: { [key: string]: string }) => {
@@ -57,14 +58,14 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
             })
           },
           ...nodes.slice(nodeIndex + 1)
-        ]));
+        ];
+        dispatch(setNodes(matchedNodes));
+        dispatch(updateCurrentList(matchedNodes));
       } else {
         generateLog(`Node not found with ID: ${id}`, LogLevels.INFO);
       }
     },
   })
-
-  console.log(nodes)
 
   return <div className={"bg-primary p-2 text-secondary"}>
     <NodeToolbar position={Position.Bottom} className="border">
