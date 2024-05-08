@@ -34,7 +34,7 @@ const LoggerWindow: FC = () => {
           <li key={`${o.time}-${i}`} className={`${colorMap[o.logLevel]} m-1 flex gap-2 rounded-lg p-2`}>
             <pre>{iconMap[o.logLevel]}</pre>
             <p className="break-all font-mono text-[10px] leading-normal">
-              {o.message.split(/\n/).filter(Boolean).map(s => <span className="mb-2 block text-[10px] leading-normal" key={`${o.time}-${s}`}>{s}</span>)}
+              {o.message.split(/\n/).filter(Boolean).map(s => <span className="block text-[10px] leading-normal" key={`${o.time}-${s}`}>{s}</span>)}
             </p>
           </li>
         ))

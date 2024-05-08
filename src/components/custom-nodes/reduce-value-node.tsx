@@ -59,7 +59,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
 
         const currdata = {
           [`${column}_total`]: sum,
-          [direction]: direction === "btt" ? "reduced from bottom to top" : "reduced from top to bottom"
+          "direction": direction === "btt" ? "bottom to top" : "top to bottom"
         };
 
         dispatch(updateCurrentList([currdata]));
@@ -68,7 +68,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
           { ...nodes[nodeIndex], data: [currdata] }
         ]));
 
-        generateLog(`Successfully reduced the values of column "${column}".\nSum: ${sum}, direction: ${direction}`, LogLevels.INFO);
+        generateLog(`reduced the values of column "${column}".\nSum: ${sum}, direction: ${direction}, [DATASET]: ${performOn}`, LogLevels.INFO);
 
       } catch (error) {
         generateLog(`Error: An unexpected error occurred while trying to reduce the column "${column}".\nDetails: ${error}`, LogLevels.ERROR);
@@ -120,7 +120,6 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
       </select>
     </form>
     <Handle position={Position.Left} type="target" />
-    <Handle position={Position.Right} type="source" />
   </div>
 })
 

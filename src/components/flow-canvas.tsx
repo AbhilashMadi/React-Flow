@@ -89,6 +89,7 @@ const FlowCanvas: FC = () => {
       onEdgesChange={onEdgesChange}
       onNodeClick={onNodeClick}
       onConnect={onConnect}
+      onNodesDelete={(...params) => { console.log(params) }}
       fitView={false}>
       <Background />
       <Controls />
