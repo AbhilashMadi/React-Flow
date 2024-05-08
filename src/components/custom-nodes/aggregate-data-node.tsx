@@ -3,7 +3,7 @@ import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { FC, memo, useState } from "react";
 import { Handle, type NodeProps, Position } from "reactflow";
-import CustomNodeTooltip from "./custom-tooltip";
+import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { aggregateData } from "@/lib/aggregations";
 import { LogLevels } from "@/types/context";
 
