@@ -1,47 +1,28 @@
-import { LogLevels, type AppContextState } from "@/types/context";
 
-/**
- * Filter data based on aggregation conditions.
- * @example
- * aggregateData("key:value, key1:value1", data, generateLog);
- * @param aggregationString Aggregation string in the format "key:value, key1:value1".
- * @param data Array of objects to filter.
- * @param generateLog Function to generate log messages.
- * @returns Filtered array of objects.
- */
-export const aggregateData = (aggregationString: string, data: Record<string, any>[], generateLog: AppContextState["generateLog"]): any[] => {
-  // Check if aggregationString is empty
+export const aggregateData = (aggregationString: string, data: Record<string, any>[]): any[] => {
   if (!aggregationString.trim()) {
-    generateLog("Aggregation string is empty.", LogLevels.ERROR);
-    return [];
+    throw new Error("Aggregation string is empty.");
   }
 
   const conditions = aggregationString.split(",");
-  // Check if no conditions are provided
-  if (conditions.length === 0) {
-    generateLog("No conditions provided in the aggregation string.", LogLevels.ERROR);
-    return [];
+  if (conditions.length === 1 && !conditions[0].includes(":")) {
+    throw new Error("No conditions provided in the aggregation string.");
   }
 
+  // convert conditions to an object for faster lookup
+  const conditionMap: Record<string, string> = {};
+  for (const condition of conditions) {
+    const [key, value] = condition.trim().split(":");
+    conditionMap[key] = value;
+  }
+
+  // filter data based on conditions
   return data.filter((obj) => {
-    let conditionMet = true;
-
-    for (const condition of conditions) {
-      const [key, value] = condition.trim().split(":");
-
-      // Check if the key exists in the object
-      if (!(key in obj)) {
-        conditionMet = false;
-        break;
-      }
-
-      // Compare the value with the object's value
-      if (obj[key] !== value) {
-        conditionMet = false;
-        break;
+    for (const key in conditionMap) {
+      if (!(key in obj) || obj[key] !== conditionMap[key]) {
+        return false; // Object doesn't meet the condition
       }
     }
-
-    return conditionMet;
+    return true; // Object meets all conditions
   });
 };
