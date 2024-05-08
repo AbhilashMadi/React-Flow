@@ -24,7 +24,7 @@ const counterSlice = createSlice({
   name: "fileData",
   initialState,
   reducers: {
-    updateFlowData: (state, action) => ({ ...state, filedata: action.payload, currentlist: action.payload }),
+    updateFlowData: (state, action) => ({ ...state, filedata: action.payload, currentlist: action.payload?.data || [] }),
     updateCurrentList: (state, action) => ({ ...state, currentlist: action.payload }),
   }
 })

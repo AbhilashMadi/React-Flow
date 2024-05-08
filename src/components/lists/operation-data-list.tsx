@@ -10,6 +10,7 @@ import { FixedSizeGrid } from "react-window";
 const OperationDataList: FC = () => {
   const { height, width, containerRef } = useAutoSizer<HTMLDivElement>();
   const dispatch = useAppDispatch();
+
   const [sortOrder, setSortOrder] = useState<"asc" | "dsc">("asc");
   const [sortedCol, setSortedCol] = useState<string>("");
 
@@ -21,7 +22,6 @@ const OperationDataList: FC = () => {
     setSortOrder(order);
     setSortedCol(col);
   };
-
 
   const Cell: FC<{ rowIndex: number; columnIndex: number; style: React.CSSProperties }> = ({ rowIndex, columnIndex, style }) => {
     const isHeaderRow = rowIndex === 0;
@@ -41,7 +41,7 @@ const OperationDataList: FC = () => {
             aria-label="Sort column in ascending order"
             onClick={() => { onSortClick(headerCol, "asc") }} />}
       </>
-      : currentlist[rowIndex - 1]?.[filedata.meta?.fields[columnIndex]] || "--";
+      : currentlist[rowIndex - 1]?.[headerCol] || "--";
 
     return (
       <div style={style} className={cn(isHeaderRow
@@ -62,7 +62,7 @@ const OperationDataList: FC = () => {
           rowHeight={25}
           height={height}
           width={width}
-          rowCount={(currentlist.length || 0) + 1}>
+          rowCount={currentlist.length || 0}>
           {Cell}
         </FixedSizeGrid>
         : <div className="grid-center h-full">

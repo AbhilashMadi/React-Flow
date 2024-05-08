@@ -4,7 +4,9 @@ import { Handle, type NodeProps, Position } from "reactflow"
 const MergeDataNode: FC<NodeProps> = memo((props) => {
 
   return <div>
-    Merge Data Node
+    <form>
+
+    </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
   </div>

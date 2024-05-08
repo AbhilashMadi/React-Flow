@@ -33,34 +33,40 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
       const nodeIndex = nodes.findIndex((n) => n.id === id);
 
       if (nodeIndex !== -1) {
+        const filteredData = {
+          ...nodes[nodeIndex], data: data.filter((o: { [key: string]: string }) => {
+            if (!column) return false;
+
+            switch (criteria) {
+              case "text is exactly":
+                return o[column] === condition;
+              case "text is not exactly":
+                return o[column] !== condition;
+              case "text includes":
+                return o[column].includes(condition);
+              case "text doesn't includes":
+                return !o[column].includes(condition);
+              case "data is not empty or null":
+                return o[column] || o[column] !== null;
+              case "data matches regex":
+                return new RegExp(condition).test(o[column]);
+              default:
+                return false;
+            }
+          })
+        };
+
         const matchedNodes = [
           ...nodes.slice(0, nodeIndex),
-          {
-            ...nodes[nodeIndex], data: data.filter((o: { [key: string]: string }) => {
-              if (!column) return false;
-
-              switch (criteria) {
-                case "text is exactly":
-                  return o[column] === condition;
-                case "text is not exactly":
-                  return o[column] !== condition;
-                case "text includes":
-                  return o[column].includes(condition);
-                case "text doesn't includes":
-                  return !o[column].includes(condition);
-                case "data is not empty or null":
-                  return o[column] || o[column] !== null;
-                case "data matches regex":
-                  return new RegExp(condition).test(o[column]);
-                default:
-                  return false;
-              }
-            })
-          },
+          filteredData,
           ...nodes.slice(nodeIndex + 1)
         ];
+
         dispatch(setNodes(matchedNodes));
-        dispatch(updateCurrentList(matchedNodes));
+        dispatch(updateCurrentList(filteredData.data));
+        generateLog(`Filtered current rows: ${data?.length ?? "-"}\n
+        matched rows based on given criteria: column: '${column}', criteria: ${criteria}, condition: ${condition}\n
+        rows matched: ${filteredData.data.length}\n`, LogLevels.INFO);
       } else {
         generateLog(`Node not found with ID: ${id}`, LogLevels.INFO);
       }
@@ -69,7 +75,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
 
   return <div className={"bg-primary p-2 text-secondary"}>
     <NodeToolbar position={Position.Bottom} className="border">
-      <Button size={"icon"} type="button" onClick={filterFormik.submitForm}>
+      <Button size={"icon"} type="button" onClick={filterFormik.submitForm} disabled={!filterFormik.values.column || !filterFormik.values.condition || !filterFormik.values.criteria}>
         <CirclePlay size={14} />
       </Button>
     </NodeToolbar>
