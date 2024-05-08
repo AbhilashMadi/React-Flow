@@ -97,6 +97,17 @@
     .react-flow__attribution {
       @apply hidden;
     }
+
+    /* input[type="number"]::-webkit-inner-spin-button {
+      display: none;
+    } */
+
+    /* Fallback for other browsers */
+    /* input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+      -webkit-appearance: textfield;
+    } */
   }
 }
 
