@@ -57,7 +57,7 @@ const InitialNode: FC<NodeProps> = memo(() => {
     try {
       const filename = "electronic-card-transactions.csv";
 
-      parser.parse("src/assets/electronic-card-transactions.csv", {
+      parser.parse("../../../public/electronic-card-transactions.csv", {
         header: true,
         download: true,
         complete: (res) => {
