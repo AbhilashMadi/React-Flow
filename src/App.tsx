@@ -1,12 +1,17 @@
 import Layout from "@/components/common/layout";
+import SuspensIcon from "@/components/common/suspense-icon";
 import AppContext from "@/context/app-context";
 import { RoutePaths } from "@/lib/routes";
 import { type FC, lazy, LazyExoticComponent, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import SuspensIcon from "@/components/common/suspense-icon";
+
+import { ErrorBoundary } from "@/components/fallbacks/error-boundary";
+import { FallbackProps } from "@/types/error-boundary";
 
 const Workflow: LazyExoticComponent<FC> = lazy(() => import("@/pages/workflow"));
 const HeroPage: LazyExoticComponent<FC> = lazy(() => import("@/pages/hero-page"));
+const NotFound: LazyExoticComponent<FC> = lazy(() => import("@/pages/not-found"));
+const ErrorFallback: LazyExoticComponent<FC<FallbackProps>> = lazy(() => import("@/pages/error-fall-back"));
 
 const App: FC = () => {
 
@@ -14,8 +19,21 @@ const App: FC = () => {
     <AppContext>
       <Layout>
         <Routes>
-          <Route index path={RoutePaths.LANDING} element={<HeroPage />} />
-          <Route path={RoutePaths.WORKFLOW} element={<Workflow />} />
+          <Route index
+            path={RoutePaths.LANDING}
+            element={
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <HeroPage />
+              </ErrorBoundary>} />
+          <Route
+            path={RoutePaths.WORKFLOW}
+            element={
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Workflow />
+              </ErrorBoundary>} />
+          <Route
+            path={RoutePaths.NOT_FOUND}
+            element={<NotFound />} />
         </Routes>
       </Layout>
     </AppContext>
