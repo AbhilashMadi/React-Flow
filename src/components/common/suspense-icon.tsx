@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 const SuspensIcon: FC = () => {
-  return (<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  return (<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="dark:text-white">
     <style>
       {`
         .spinner_OSmW {
