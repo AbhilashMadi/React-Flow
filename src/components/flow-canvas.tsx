@@ -10,8 +10,8 @@ import ReactFlow, {
   Controls,
   Edge,
   EdgeChange,
-  NodeChange,
   MiniMap,
+  NodeChange,
   Panel,
   type Node
 } from "reactflow";
@@ -127,16 +127,16 @@ const FlowCanvas: FC = () => {
           : <></>}
         <Button
           size="icon"
-          onClick={handleOpenSavedWorkflows}
-          title="view saved workflows">
-          <FolderOpenDot size={16} />
-        </Button>
-        <Button
-          size="icon"
           onClick={handleSaveCurrent}
           title="save current workflow"
           disabled={nodes.length <= 1}>
           <FolderPlus size={16} />
+        </Button>
+        <Button
+          size="icon"
+          onClick={handleOpenSavedWorkflows}
+          title="view saved workflows">
+          <FolderOpenDot size={16} />
         </Button>
       </Panel>
       <Panel position="top-right">

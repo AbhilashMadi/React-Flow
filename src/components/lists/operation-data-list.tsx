@@ -1,9 +1,10 @@
 import useAutoSizer from "@/hooks/auto-sizer";
 import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks";
+import { exportDateToFile } from "@/lib/downloads";
 import { sortData } from "@/lib/sorters";
 import { cn } from "@/lib/utils";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
-import { ArrowDown, ArrowUp, Grid2x2X } from "lucide-react";
+import { ArrowDown, ArrowUp, FileJson2, FileSpreadsheet, Grid2x2X } from "lucide-react";
 import { useState, type FC } from "react";
 import { FixedSizeGrid } from "react-window";
 
@@ -14,7 +15,7 @@ const OperationDataList: FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "dsc">("asc");
   const [sortedCol, setSortedCol] = useState<string>("");
 
-  const { currentlist } = useAppSelector(state => state.flowData);
+  const { currentlist, filedata } = useAppSelector(state => state.flowData);
   const currentDataColumns = Object.keys(currentlist[0] ?? {});
 
   const onSortClick = (col: string, order: typeof sortOrder) => {
@@ -54,18 +55,30 @@ const OperationDataList: FC = () => {
     );
   };
 
-  return (<div ref={containerRef} className="h-full">
+  return (<div ref={containerRef} className="relative h-full">
     {
       currentlist.length
-        ? <FixedSizeGrid
-          columnCount={currentDataColumns.length || 0}
-          columnWidth={150}
-          rowHeight={25}
-          height={height}
-          width={width}
-          rowCount={currentlist.length + 1 || 0}>
-          {Cell}
-        </FixedSizeGrid>
+        ? <div className="flex">
+          <FixedSizeGrid
+            columnCount={currentDataColumns.length || 0}
+            columnWidth={150}
+            rowHeight={25}
+            height={height}
+            width={width}
+            rowCount={currentlist.length + 1 || 0}>
+            {Cell}
+          </FixedSizeGrid>
+          <div className="flex flex-col justify-around gap-1 p-1 focus:border-none">
+            <button className="grow bg-secondary p-2"
+              onClick={() => exportDateToFile(currentlist, filedata.filename)}>
+              <FileJson2 size={16} />
+            </button>
+            <button className="grow bg-secondary p-2 focus:border-none focus:outline-none"
+              onClick={() => exportDateToFile(currentlist, filedata.filename, ".csv")}>
+              <FileSpreadsheet size={16} />
+            </button>
+          </div>
+        </div>
         : <div className="grid-center h-full">
           <Grid2x2X
             size={50}
