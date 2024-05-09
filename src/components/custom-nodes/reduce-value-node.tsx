@@ -12,7 +12,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
   const { generateLog } = useData();
 
   const { nodes } = useAppSelector(s => s.flowNodes);
-  const { filedata } = useAppSelector(s => s.flowdata);
+  const { filedata } = useAppSelector(s => s.flowData);
 
   const dispatch = useAppDispatch();
 

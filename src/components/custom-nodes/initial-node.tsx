@@ -10,7 +10,7 @@ import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
 
 const InitialNode: FC<NodeProps> = memo(() => {
   const dispatch = useAppDispatch();
-  const { filedata } = useAppSelector((state) => state.flowdata);
+  const { filedata } = useAppSelector((state) => state.flowData);
   const { nodes } = useAppSelector((state) => state.flowNodes);
   const { generateLog } = useData();
 

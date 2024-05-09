@@ -14,7 +14,7 @@ const OperationDataList: FC = () => {
   const [sortOrder, setSortOrder] = useState<"asc" | "dsc">("asc");
   const [sortedCol, setSortedCol] = useState<string>("");
 
-  const { currentlist } = useAppSelector(state => state.flowdata);
+  const { currentlist } = useAppSelector(state => state.flowData);
   const currentDataColumns = Object.keys(currentlist[0] ?? {});
 
   const onSortClick = (col: string, order: typeof sortOrder) => {

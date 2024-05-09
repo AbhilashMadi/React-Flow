@@ -13,7 +13,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
   const dispatch = useAppDispatch();
 
   const { nodes } = useAppSelector((s) => s.flowNodes);
-  const { filedata } = useAppSelector((s) => s.flowdata);
+  const { filedata } = useAppSelector((s) => s.flowData);
 
   const filterFormik = useFormik<{
     column: string;

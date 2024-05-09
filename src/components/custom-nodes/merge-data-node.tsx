@@ -9,7 +9,7 @@ import CustomNodeTooltip from "./custom-tooltip";
 
 const MergeDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
-  const { filedata } = useAppSelector((s) => s.flowdata);
+  const { filedata } = useAppSelector((s) => s.flowData);
   const { nodes } = useAppSelector((s) => s.flowNodes);
   const { generateLog } = useData();
 

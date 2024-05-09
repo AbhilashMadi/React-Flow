@@ -13,7 +13,7 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
 
   const dispatch = useAppDispatch();
   const { nodes } = useAppSelector(state => state.flowNodes);
-  const { filedata } = useAppSelector(state => state.flowdata);
+  const { filedata } = useAppSelector(state => state.flowData);
   const availColumns = filedata.meta?.fields ?? [];
 
   const containNodeFormik = useFormik<{

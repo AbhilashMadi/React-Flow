@@ -1,5 +1,5 @@
 import { Button } from "@ui/button";
-import { GitBranchPlus } from "lucide-react";
+import { FolderOpenDot, FolderPlus, GitBranchPlus } from "lucide-react";
 import { FC, lazy, SyntheticEvent, useCallback, useState } from "react";
 import ReactFlow, {
   addEdge,
@@ -33,8 +33,10 @@ import MergeDataNode from "@/components/custom-nodes/merge-data-node";
 import ReduceValueNode from "@/components/custom-nodes/reduce-value-node";
 import SliceDataNode from "@/components/custom-nodes/slice-data-node";
 import SortDataNode from "@/components/custom-nodes/sort-data-node";
-import { setEdges, setNodes } from "@/store/reducers/nodes-list-slice";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
+import { setEdges, setNodes } from "@/store/reducers/nodes-list-slice";
+import SavedWorkflowsDialog from "./dialogs/saved-workflows-dialog";
+import SaveWorkFlowDialog from "./dialogs/save-workflow-dialog";
 
 //custom nodes
 const nodeTypes = {
@@ -53,7 +55,10 @@ const nodeTypes = {
 
 const FlowCanvas: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const { filedata } = useAppSelector((state) => state.flowdata);
+  const [savedWorkflows, setSavedWorkflows] = useState<boolean>(false);
+  const [saveWorkflow, setSaveWorkflow] = useState<boolean>(false);
+
+  const { filedata } = useAppSelector((state) => state.flowData);
   const { nodes, edges } = useAppSelector((state) => state.flowNodes);
   const dispatch = useAppDispatch();
 
@@ -77,10 +82,25 @@ const FlowCanvas: FC = () => {
     setOpenModal(!openModal);
   }, [openModal])
 
+  const handleOpenSavedWorkflows = useCallback((): void => {
+    setSavedWorkflows(!savedWorkflows);
+  }, [savedWorkflows]);
+
+  const handleSaveCurrent = useCallback((): void => {
+    setSaveWorkflow(!saveWorkflow);
+  }, [saveWorkflow]);
+
   return <>
     <OperationsDialog
       open={openModal}
       onOpenChange={handleAddNodeDialog} />
+    <SavedWorkflowsDialog
+      open={savedWorkflows}
+      onOpenChange={handleOpenSavedWorkflows}
+    />
+    <SaveWorkFlowDialog
+      open={saveWorkflow}
+      onOpenChange={handleSaveCurrent} />
     <ReactFlow
       nodes={nodes}
       edges={edges}
@@ -93,7 +113,7 @@ const FlowCanvas: FC = () => {
       fitView={false}>
       <Background />
       <Controls />
-      <Panel position={"top-left"}>
+      <Panel position={"top-left"} className="flex flex-col gap-2">
         {filedata.data.length
           ? <Button
             size="icon"
@@ -102,6 +122,18 @@ const FlowCanvas: FC = () => {
             <GitBranchPlus size={16} />
           </Button>
           : <></>}
+        <Button
+          size="icon"
+          onClick={handleOpenSavedWorkflows}
+          title="view saved workflows">
+          <FolderOpenDot size={16} />
+        </Button>
+        <Button
+          size="icon"
+          onClick={handleSaveCurrent}
+          title="save current workflow">
+          <FolderPlus size={16} />
+        </Button>
       </Panel>
       <Panel position="top-right">
         <ThemeSwitch />

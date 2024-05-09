@@ -11,7 +11,7 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
   const { id, data } = props;
   const dispatch = useAppDispatch();
   const { nodes } = useAppSelector((s) => s.flowNodes);
-  const { filedata } = useAppSelector((s) => s.flowdata);
+  const { filedata } = useAppSelector((s) => s.flowData);
   const { generateLog } = useData();
 
   const sliceFormik = useFormik<{

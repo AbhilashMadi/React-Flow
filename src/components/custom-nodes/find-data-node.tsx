@@ -11,7 +11,7 @@ const FindDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
 
   const { nodes } = useAppSelector(s => s.flowNodes);
-  const { filedata } = useAppSelector(s => s.flowdata);
+  const { filedata } = useAppSelector(s => s.flowData);
 
   const dispatch = useAppDispatch();
   const { generateLog } = useData();
