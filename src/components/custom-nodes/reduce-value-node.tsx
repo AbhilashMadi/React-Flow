@@ -97,7 +97,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         name="column"
         onChange={reuducerFormik.handleChange}
         value={reuducerFormik.values.column}
-        className="border text-xs">
+        className="rounded border p-1 text-xs">
         <option className="text-xs" disabled>select column</option>
         {numberCols.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
@@ -105,7 +105,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         name="direction"
         onChange={reuducerFormik.handleChange}
         value={reuducerFormik.values.direction}
-        className="border text-xs">
+        className="rounded border p-1 text-xs">
         <option className="text-xs" disabled>select direction</option>
         <option value="ttb" className="text-xs">from top to bottom</option>
         <option value="btt" className="text-xs">from bottom to top</option>
@@ -114,7 +114,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         name="performOn"
         onChange={reuducerFormik.handleChange}
         value={reuducerFormik.values.performOn}
-        className="border text-xs">
+        className="rounded border p-1 text-xs">
         <option className="text-xs" disabled>selection dataset</option>
         <option value="previous" className="text-xs">dataset - previous</option>
         <option value="wholeData" className="text-xs">dataset - whole file</option>
