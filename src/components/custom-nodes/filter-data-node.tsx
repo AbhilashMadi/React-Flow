@@ -25,7 +25,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
   }>({
     enableReinitialize: true,
     initialValues: {
-      column: dataColumns?.at(-1) ?? "",
+      column: dataColumns[0] ?? "",
       criteria: "exactly",
       condition: "",
     },
@@ -95,7 +95,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
       </select>
 
       <select onChange={filterFormik.handleChange} name={"criteria"} className="border" value={filterFormik.values.criteria}>
-        <option className="text-xs">Select a criteria</option>
+        <option className="text-xs" disabled>Select a criteria</option>
         <option value="exactly" className="text-xs">text is exactly</option>
         <option value="notExactly" className="text-xs">text is not exactly</option>
         <option value="includes" className="text-xs">text includes</option>
