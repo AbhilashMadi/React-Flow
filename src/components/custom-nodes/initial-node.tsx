@@ -7,6 +7,7 @@ import { File, FileDown, GripHorizontal } from "lucide-react";
 import parser from "papaparse";
 import { ChangeEvent, FC, memo, useRef } from "react";
 import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
+import sampleCsv from "../../assets/electronic-card-transactions.csv?url";
 
 
 const InitialNode: FC<NodeProps> = memo(() => {
@@ -16,6 +17,7 @@ const InitialNode: FC<NodeProps> = memo(() => {
   const { generateLog } = useData();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  console.log(sampleCsv);
 
   const handleSelectFile = (): void => {
     if (inputRef.current) {
@@ -57,7 +59,7 @@ const InitialNode: FC<NodeProps> = memo(() => {
     try {
       const filename = "electronic-card-transactions.csv";
 
-      parser.parse("../../../public/electronic-card-transactions.csv", {
+      parser.parse(sampleCsv, {
         header: true,
         download: true,
         complete: (res) => {
