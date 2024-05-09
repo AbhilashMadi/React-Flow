@@ -1,5 +1,5 @@
 import Dexie from "dexie";
-import { WorkflowFolder as Workflow } from "@/types/storage-schemas";
+import type { WorkflowFolder as Workflow } from "@/types/storage-schemas";
 
 class WorkflowsDatabase extends Dexie {
   workflows: Dexie.Table<Workflow, number>;

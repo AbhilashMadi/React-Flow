@@ -26,8 +26,9 @@ const counterSlice = createSlice({
   reducers: {
     updateFlowData: (state, action) => ({ ...state, filedata: action.payload, currentlist: action.payload?.data || [] }),
     updateCurrentList: (state, action) => ({ ...state, currentlist: action.payload }),
+    resetFlowState: () => initialState,
   }
 })
 
-export const { updateFlowData, updateCurrentList } = counterSlice.actions;
+export const { updateFlowData, updateCurrentList, resetFlowState } = counterSlice.actions;
 export default counterSlice.reducer;

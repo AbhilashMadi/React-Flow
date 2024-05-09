@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, memo, useState } from "react";
 import { Handle, NodeProps, Position } from "reactflow";
-import { Minus, PanelLeft, PanelRight, Plus } from "lucide-react";
+import { GripHorizontal, Minus, PanelLeft, PanelRight, Plus } from "lucide-react";
 import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
@@ -148,6 +148,9 @@ const DeleteDataNode: FC<NodeProps> = memo((props) => {
       </form>
       <Handle position={Position.Left} type="target" />
       <Handle position={Position.Right} type="source" />
+      <div className="grid-center mt-1 h-4">
+        <GripHorizontal />
+      </div>
     </div>
   );
 });

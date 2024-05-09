@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { FC, memo } from "react";
 import { Handle, NodeToolbar, Position, type NodeProps } from "reactflow";
 import CustomTooltip from "./custom-tooltip";
+import { GripHorizontal } from "lucide-react";
 
 const FilterDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -114,6 +115,9 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
     <NodeToolbar position={Position.Bottom}>
       <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
     </NodeToolbar>
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 })
 

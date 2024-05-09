@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { sortData } from "@/lib/sorters";
 import { LogLevels } from "@/types/context";
+import { GripHorizontal } from "lucide-react";
 
 const SortDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -48,7 +49,7 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
     dispatch(updateCurrentList([]));
   }
 
-  return <div className="rounded bg-primary p-2">
+  return <div className="rounded bg-primary p-2 text-secondary">
     <CustomNodeTooltip
       onClearForm={sortFormik.resetForm}
       onDelete={onSelfDelete}
@@ -66,6 +67,9 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
     </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 })
 

@@ -1,10 +1,16 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
-import { FC } from "react";
-import { Switch } from "@ui/switch";
-import { Input } from "@ui/input";
+import { storeNewWorkflow } from "@/db/storage-services";
+import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
+import { generateId } from "@/lib/generators";
+import { resetFlowState } from "@/store/reducers/flow-data-slice";
+import { resetFlow } from "@/store/reducers/nodes-list-slice";
+import { LogLevels } from "@/types/context";
 import { Button } from "@ui/button";
-import { Save } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
+import { Input } from "@ui/input";
+import { Switch } from "@ui/switch";
 import { useFormik } from "formik";
+import { Save } from "lucide-react";
+import { FC } from "react";
 
 interface ISaveWorkFlowDialog {
   open: boolean;
@@ -13,6 +19,11 @@ interface ISaveWorkFlowDialog {
 
 const SaveWorkFlowDialog: FC<ISaveWorkFlowDialog> = (props) => {
   const { open, onOpenChange } = props;
+  const { generateLog } = useData();
+
+  const flowData = useAppSelector(state => state.flowData);
+  const flowNodes = useAppSelector(state => state.flowNodes);
+  const dispatch = useAppDispatch();
 
   const saveFolderFormik = useFormik<{
     folderName: string;
@@ -23,8 +34,24 @@ const SaveWorkFlowDialog: FC<ISaveWorkFlowDialog> = (props) => {
       folderName: "",
       isClear: true,
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const { folderName, isClear } = values;
+      await storeNewWorkflow({
+        flowData,
+        flowNodes,
+        folderName,
+        id: generateId(),
+      }).then((res) => {
+        generateLog(`successfully saved the workflow with folder name: ${folderName}, id: ${res}`, LogLevels.SUCCESS)
+        onOpenChange();
+
+        if (isClear) {
+          dispatch(resetFlow())
+          dispatch(resetFlowState())
+        }
+      }).catch((err) => {
+        generateLog(err, LogLevels.ERROR)
+      })
     }
   })
 

@@ -11,12 +11,14 @@ import ReactFlow, {
   Edge,
   EdgeChange,
   NodeChange,
+  MiniMap,
   Panel,
   type Node
 } from "reactflow";
 
 import ThemeSwitch from "@/components/common/theme-switch";
 import { useAppDispatch, useAppSelector } from "@/hooks/state-hooks";
+
 import "reactflow/dist/style.css";
 
 const OperationsDialog = lazy(() => import("@/components/dialogs/operations-dialog"));
@@ -113,6 +115,7 @@ const FlowCanvas: FC = () => {
       fitView={false}>
       <Background />
       <Controls />
+      <MiniMap nodeStrokeWidth={2} zoomable />
       <Panel position={"top-left"} className="flex flex-col gap-2">
         {filedata.data.length
           ? <Button
@@ -131,7 +134,8 @@ const FlowCanvas: FC = () => {
         <Button
           size="icon"
           onClick={handleSaveCurrent}
-          title="save current workflow">
+          title="save current workflow"
+          disabled={nodes.length <= 1}>
           <FolderPlus size={16} />
         </Button>
       </Panel>

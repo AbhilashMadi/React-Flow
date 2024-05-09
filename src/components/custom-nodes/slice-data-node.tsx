@@ -4,6 +4,7 @@ import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
+import { GripHorizontal } from "lucide-react";
 import { FC, memo } from "react";
 import { Handle, NodeToolbar, Position, type NodeProps } from "reactflow";
 
@@ -56,7 +57,7 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
     dispatch(updateCurrentList([]));
   }
 
-  return <div className="rounded bg-primary p-2 text-[10px]">
+  return <div className="rounded bg-primary p-2 text-[10px] text-secondary">
     <CustomNodeTooltip
       onClearForm={sliceFormik.resetForm}
       onDelete={onSelfDelete}
@@ -94,6 +95,9 @@ const SliceDataNode: FC<NodeProps> = memo((props) => {
     </NodeToolbar>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 });
 

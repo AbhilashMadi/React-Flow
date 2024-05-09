@@ -5,7 +5,8 @@ import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
 import { FC, memo, useMemo } from "react";
 import { type NodeProps, Handle, Position } from "reactflow";
-import CustomNodeTooltip from "./custom-tooltip";
+import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
+import { GripHorizontal } from "lucide-react";
 
 const ReduceValueNode: FC<NodeProps> = memo((props) => {
   const { id } = props;
@@ -83,7 +84,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
     dispatch(updateCurrentList([]));
   }
 
-  return <div className="rounded bg-primary p-2">
+  return <div className="rounded bg-primary p-2 text-secondary">
     <CustomNodeTooltip
       onDelete={onSelfDelete}
       node="Reduce"
@@ -120,6 +121,9 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
       </select>
     </form>
     <Handle position={Position.Left} type="target" />
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 })
 

@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { FC, memo } from "react";
 import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
 import CustomNodeTooltip from "./custom-tooltip";
+import { GripHorizontal } from "lucide-react";
 
 const MergeDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -95,7 +96,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
   const availableColumns = filedata.meta?.fields || [];
 
   return (
-    <div className="rounded bg-primary p-2">
+    <div className="rounded bg-primary p-2 text-secondary">
       <CustomNodeTooltip
         onDelete={onSelfDelete}
         onClearForm={mergeFormik.resetForm}
@@ -165,6 +166,9 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
       <NodeToolbar position={Position.Bottom}>
         <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
       </NodeToolbar>
+      <div className="grid-center mt-1 h-4">
+        <GripHorizontal />
+      </div>
     </div>
   );
 });

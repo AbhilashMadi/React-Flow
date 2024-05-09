@@ -6,6 +6,7 @@ import { Handle, type NodeProps, Position } from "reactflow";
 import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { aggregateData } from "@/lib/aggregations";
 import { LogLevels } from "@/types/context";
+import { GripHorizontal } from "lucide-react";
 
 const AggregateDataNode: FC<NodeProps> = memo((props) => {
   const { id, data } = props;
@@ -62,6 +63,9 @@ const AggregateDataNode: FC<NodeProps> = memo((props) => {
     </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 })
 

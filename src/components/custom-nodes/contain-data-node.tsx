@@ -6,6 +6,7 @@ import { FC, memo } from "react";
 import { Handle, type NodeProps, Position } from "reactflow";
 import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { LogLevels } from "@/types/context";
+import { GripHorizontal } from "lucide-react";
 
 const ContainDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -73,7 +74,7 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
         value={containNodeFormik.values.column}
         className="rounded border">
         <option disabled className="text-xs">column</option>
-        {availColumns.map(s => <option value={s} className="text-xs">{s}</option>)}
+        {availColumns.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
       <input type="text" placeholder="value" className="rounded border px-1"
         value={containNodeFormik.values.value}
@@ -86,6 +87,9 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
     </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <div className="grid-center mt-1 h-4">
+      <GripHorizontal />
+    </div>
   </div>
 })
 
