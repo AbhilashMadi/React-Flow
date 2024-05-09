@@ -17,7 +17,6 @@ const InitialNode: FC<NodeProps> = memo(() => {
   const { generateLog } = useData();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  console.log(sampleCsv);
 
   const handleSelectFile = (): void => {
     if (inputRef.current) {
