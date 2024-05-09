@@ -70,11 +70,11 @@ const OperationDataList: FC = () => {
           </FixedSizeGrid>
           <div className="flex flex-col justify-around gap-1 p-1 focus:border-none">
             <button className="grow bg-secondary p-2"
-              onClick={() => exportDateToFile(currentlist, filedata.filename)}>
+              onClick={() => exportDateToFile(currentlist, filedata.filename)} title=".json">
               <FileJson2 size={16} />
             </button>
             <button className="grow bg-secondary p-2 focus:border-none focus:outline-none"
-              onClick={() => exportDateToFile(currentlist, filedata.filename, ".csv")}>
+              onClick={() => exportDateToFile(currentlist, filedata.filename, ".csv")} title=".csv">
               <FileSpreadsheet size={16} />
             </button>
           </div>
