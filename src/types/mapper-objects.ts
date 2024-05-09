@@ -6,7 +6,7 @@ export type Operation = {
   input: string[]
   result: string[];
   nodeName: CustomNodes;
-  type: "source" | "target",
+  type: "source-target" | "target" | "source",
 }
 
 export enum CustomNodes {

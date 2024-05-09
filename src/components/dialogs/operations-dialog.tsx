@@ -23,7 +23,7 @@ const Operations: ReadonlyArray<Operation> = [
     explain: "Filter a dataset based on a given column name and value.",
     input: ["Column Name", "Filter Value"],
     nodeName: CustomNodes.FILTER_DATA_NODE,
-    type: "source",
+    type: "source-target",
     result: [],
   },
   {
@@ -33,7 +33,7 @@ const Operations: ReadonlyArray<Operation> = [
     input: [],
     nodeName: CustomNodes.MERGE_DATA_NODE,
     result: [],
-    type: "source",
+    type: "source-target",
   },
   // {
   //   icon: <Group size={18} />,
@@ -50,7 +50,7 @@ const Operations: ReadonlyArray<Operation> = [
     input: ["Start Index", "End Index"],
     nodeName: CustomNodes.SLICE_DATA_NODE,
     result: [],
-    type: "source",
+    type: "source-target",
   },
   {
     icon: <ArrowUpDown size={18} />,
@@ -59,7 +59,7 @@ const Operations: ReadonlyArray<Operation> = [
     nodeName: CustomNodes.SORT_DATA_NODE,
     input: ["Column Name", "Sort Order"],
     result: [],
-    type: "source",
+    type: "source-target",
   },
   {
     icon: <ListX size={18} />,
@@ -68,7 +68,7 @@ const Operations: ReadonlyArray<Operation> = [
     nodeName: CustomNodes.DELETE_DATA_NODE,
     input: ["From Index", "To Index"],
     result: ["Text"],
-    type: "source",
+    type: "source-target",
   },
   {
     icon: <Command size={18} />,
@@ -77,7 +77,7 @@ const Operations: ReadonlyArray<Operation> = [
     nodeName: CustomNodes.AGGREGATE_DATA_NODE,
     input: ["Aggregation Condition"],
     result: ["Array of Objects"],
-    type: "source",
+    type: "source-target",
   },
   {
     icon: <SquareMinus size={18} />,
@@ -155,8 +155,9 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
           return <div key={i} className="cursor-grab rounded-lg border border-muted transition-all hover:scale-105 hover:border-primary hover:shadow-lg" onClick={() => onOperationSelect(o)}>
             <div className="mb-2 flex items-center">
               <span className={cn(buttonVariants({ size: "icon" }), "size-8 rounded-lg")}>{o.icon}</span>
-              <span className="ml-2 font-mono">{o.label}/
-                <span className={cn(o.type === "source" ? "text-red-300" : "text-green-300", "text-xs")}>{o.type}</span>
+              <span className="ml-2 font-mono">
+                {o.label}
+                <span className={cn(o.type === "target" ? "text-green-400" : "text-red-400", "text-xs block")}>{o.type}</span>
               </span>
             </div>
             <MutedText className="mt-1 text-[10px] leading-normal">{o.explain}</MutedText>

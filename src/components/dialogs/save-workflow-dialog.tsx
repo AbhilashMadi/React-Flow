@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
 import { FC } from "react";
 import { Switch } from "@ui/switch";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "@ui/input";
+import { Button } from "@ui/button";
 import { Save } from "lucide-react";
 import { useFormik } from "formik";
 

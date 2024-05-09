@@ -35,8 +35,8 @@ import SliceDataNode from "@/components/custom-nodes/slice-data-node";
 import SortDataNode from "@/components/custom-nodes/sort-data-node";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setEdges, setNodes } from "@/store/reducers/nodes-list-slice";
-import SavedWorkflowsDialog from "./dialogs/saved-workflows-dialog";
 import SaveWorkFlowDialog from "./dialogs/save-workflow-dialog";
+import SavedWorkflowsDialog from "./dialogs/saved-workflows-dialog";
 
 //custom nodes
 const nodeTypes = {
