@@ -15,6 +15,8 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
 
   const { nodes } = useAppSelector((s) => s.flowNodes);
   const { filedata } = useAppSelector((s) => s.flowData);
+  const dataColumns = filedata.meta?.fields ?? [];
+
 
   const filterFormik = useFormik<{
     column: string;
@@ -23,8 +25,8 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
   }>({
     enableReinitialize: true,
     initialValues: {
-      column: "",
-      criteria: "",
+      column: dataColumns?.at(-1) ?? "",
+      criteria: "exactly",
       condition: "",
     },
     onSubmit: async (values) => {
@@ -38,17 +40,17 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
             if (!column) return false;
 
             switch (criteria) {
-              case "text is exactly":
+              case "exactly":
                 return o[column] === condition;
-              case "text is not exactly":
+              case "notExactly":
                 return o[column] !== condition;
-              case "text includes":
+              case "includes":
                 return o[column].includes(condition);
-              case "text doesn't includes":
+              case "notIncludes":
                 return !o[column].includes(condition);
-              case "data is not empty or null":
+              case "emptyOrNull":
                 return o[column] && o[column] !== null;
-              case "data matches regex":
+              case "regex":
                 return new RegExp(condition).test(o[column]);
               default:
                 return false;
@@ -89,17 +91,17 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
       <select onChange={filterFormik.handleChange} name={"column"} className="border" value={filterFormik.values.column}>
         <option className="text-xs">Select a column</option>
-        {filedata.meta?.fields?.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
+        {dataColumns.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
 
       <select onChange={filterFormik.handleChange} name={"criteria"} className="border" value={filterFormik.values.criteria}>
         <option className="text-xs">Select a criteria</option>
-        <option value="text is exactly" className="text-xs">text is exactly</option>
-        <option value="text is not exactly" className="text-xs">text is not exactly</option>
-        <option value="text includes" className="text-xs">text includes</option>
-        <option value="text doesn't includes" className="text-xs">text doesn't includes</option>
-        <option value="data is not empty or null" className="text-xs">data is not empty or null</option>
-        <option value="data matches regex" className="text-xs">data matches regex</option>
+        <option value="exactly" className="text-xs">text is exactly</option>
+        <option value="notExactly" className="text-xs">text is not exactly</option>
+        <option value="includes" className="text-xs">text includes</option>
+        <option value="notIncludes" className="text-xs">text doesn't includes</option>
+        <option value="emptyOrNull" className="text-xs">data is not empty or null</option>
+        <option value="regex" className="text-xs">data matches regex</option>
       </select>
 
       <input

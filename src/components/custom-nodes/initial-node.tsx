@@ -3,10 +3,11 @@ import { updateFlowData } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { Button, buttonVariants } from "@ui/button";
-import { File } from "lucide-react";
+import { File, FileDown, GripHorizontal } from "lucide-react";
 import parser from "papaparse";
 import { ChangeEvent, FC, memo, useRef } from "react";
 import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
+
 
 const InitialNode: FC<NodeProps> = memo(() => {
   const dispatch = useAppDispatch();
@@ -52,15 +53,57 @@ const InitialNode: FC<NodeProps> = memo(() => {
     }
   };
 
-  return (<div>
+  const handleLoadSampleData = (): void => {
+    try {
+      const filename = "electronic-card-transactions.csv";
+
+      parser.parse("src/assets/electronic-card-transactions.csv", {
+        header: true,
+        download: true,
+        complete: (res) => {
+          dispatch(updateFlowData({ filename, ...res }));
+          dispatch(setNodes([{
+            ...nodes[0],
+            data: res.data,
+          }]));
+
+          generateLog(`${res.errors.length} rows are affected while parsing data`, LogLevels.WARNING)
+          generateLog(`successfully parsed data from file: ${filename ?? "--"}`, LogLevels.SUCCESS)
+          generateLog(`
+          file: ${filename ?? "--"} \n
+          columns: ${res.meta?.fields?.join(", ")} \n
+          rows: ${res.data.length}
+          `, LogLevels.INFO)
+        },
+        error: (error) => {
+          generateLog(`Error parsing CSV: ${error}`, LogLevels.ERROR);
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  return (<div className="flex gap-2 rounded bg-muted p-2">
     <input type="file" accept=".csv" className="hidden" ref={inputRef} onChange={handleFileChange} />
     {filedata.filename
       ? <div title={filedata.filename} className={buttonVariants({ variant: "default" })}>
         {filedata.filename}
       </div>
-      : <Button size="sm" onClick={handleSelectFile}>
-        <File size={14} className="mr-1" />Select File
-      </Button>}
+      : <>
+        <Button size="sm" onClick={handleSelectFile}>
+          <File size={14} className="mr-1" />
+          Select File
+        </Button>
+        <Button size="sm" onClick={handleLoadSampleData}>
+          <FileDown size={14} className="mr-1" />
+          Lode sample data
+        </Button>
+        <div className="grid-center mt-1 h-4">
+          <GripHorizontal />
+        </div>
+      </>}
     {filedata.filename && <NodeToolbar position={Position.Bottom}>
       <pre className="text-[10px]">[DATASET]: {filedata.data.length} | {filedata.meta?.fields?.length} columns</pre>
     </NodeToolbar>}
