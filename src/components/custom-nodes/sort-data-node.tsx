@@ -58,10 +58,10 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
       disableRun={!sortFormik.values.column || !sortFormik.values.order}
       node="Sort" />
     <form className="flex flex-col gap-2 text-secondary">
-      <select name="column" onChange={sortFormik.handleChange} value={sortFormik.values.column} className="border text-xs">
+      <select name="column" onChange={sortFormik.handleChange} value={sortFormik.values.column} className="rounded border p-1">
         {Object.keys(data[0] ?? {}).map(s => <option value={s} className="text-xs">{s}</option>)}
       </select>
-      <select name="order" onChange={sortFormik.handleChange} value={sortFormik.values.order} className="border text-xs">
+      <select name="order" onChange={sortFormik.handleChange} value={sortFormik.values.order} className="rounded border p-1">
         <option value="asc" className="text-xs">ascending</option>
         <option value="dsc" className="text-xs">descending</option>
       </select>

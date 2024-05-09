@@ -89,12 +89,12 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
       node={"Filter"}
     />
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
-      <select onChange={filterFormik.handleChange} name={"column"} className="border" value={filterFormik.values.column}>
+      <select onChange={filterFormik.handleChange} name={"column"} className="rounded border p-1" value={filterFormik.values.column}>
         <option className="text-xs">Select a column</option>
         {dataColumns.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
 
-      <select onChange={filterFormik.handleChange} name={"criteria"} className="border" value={filterFormik.values.criteria}>
+      <select onChange={filterFormik.handleChange} name={"criteria"} className="rounded border p-1" value={filterFormik.values.criteria}>
         <option className="text-xs" disabled>Select a criteria</option>
         <option value="exactly" className="text-xs">text is exactly</option>
         <option value="notExactly" className="text-xs">text is not exactly</option>
@@ -109,7 +109,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
         value={filterFormik.values.condition}
         onChange={filterFormik.handleChange}
         name="condition"
-        className="border" />
+        className="rounded border p-1" />
     </form>
 
     <Handle position={Position.Left} type="target" />

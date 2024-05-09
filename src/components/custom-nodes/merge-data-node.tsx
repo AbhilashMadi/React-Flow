@@ -105,7 +105,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
         node={"Merge"} />
       <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
         <select
-          className="border"
+          className="rounded border p-1"
           onChange={mergeFormik.handleChange}
           name="columnOne"
           value={mergeFormik.values.columnOne}>
@@ -115,7 +115,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
           ))}
         </select>
         <select
-          className="border"
+          className="rounded border p-1"
           onChange={mergeFormik.handleChange}
           name="columnTwo"
           value={mergeFormik.values.columnTwo}>
@@ -125,7 +125,7 @@ const MergeDataNode: FC<NodeProps> = memo((props) => {
           ))}
         </select>
         <select
-          className="border"
+          className="rounded border p-1"
           onChange={mergeFormik.handleChange}
           name="mergeAs"
           value={mergeFormik.values.mergeAs}>

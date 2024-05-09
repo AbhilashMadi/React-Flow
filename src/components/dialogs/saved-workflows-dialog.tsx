@@ -80,8 +80,8 @@ const SavedWorkflowsDialog: FC<ISavedWorkflowsDialogProps> = (props) => {
                 <div
                   className="text-center">
                   <FolderGit2 size={30} strokeWidth={1} className="mx-auto" />
-                  <span className="text-[8px]">{workflow.folderName}</span>
                 </div>
+                <span className="mt-2 text-[10px] leading-3">{workflow.folderName}</span>
               </button>
             ))}
             <button className="grid-center rounded border bg-gray-500/[0.5] p-4 transition-all hover:scale-105 hover:border-primary hover:bg-gray-400/[0.5] hover:shadow-md"
