@@ -2,7 +2,7 @@ import Dexie from "dexie";
 import type { WorkflowFolder as Workflow } from "@/types/storage-schemas";
 
 class WorkflowsDatabase extends Dexie {
-  workflows: Dexie.Table<Workflow, number>;
+  workflows: Dexie.Table<Workflow, string>;
 
   constructor() {
     super("workflows-db");
@@ -27,7 +27,7 @@ export const getWorkflows = async (): Promise<Workflow[]> => {
 }
 
 // Function to get a workflow by ID
-export const getWorkflow = async (id: number): Promise<Workflow | undefined> => {
+export const getWorkflow = async (id: string): Promise<Workflow | undefined> => {
   try {
     return await db.workflows.get(id);
   } catch (error) {
@@ -37,7 +37,7 @@ export const getWorkflow = async (id: number): Promise<Workflow | undefined> => 
 }
 
 // Function to update a workflow
-export const updateWorkflow = async (id: number, updatedWorkflow: Workflow): Promise<void> => {
+export const updateWorkflow = async (id: string, updatedWorkflow: Workflow): Promise<void> => {
   try {
     await db.workflows.update(id, updatedWorkflow);
   } catch (error) {
@@ -47,7 +47,7 @@ export const updateWorkflow = async (id: number, updatedWorkflow: Workflow): Pro
 }
 
 // Function to remove a workflow by ID
-export const removeWorkflow = async (id: number): Promise<void> => {
+export const removeWorkflow = async (id: string): Promise<void> => {
   try {
     await db.workflows.delete(id);
   } catch (error) {
@@ -67,7 +67,7 @@ export const clearWorkflows = async (): Promise<void> => {
 }
 
 // Function to store a new workflow
-export const storeNewWorkflow = async (newWorkflow: Workflow): Promise<number> => {
+export const storeNewWorkflow = async (newWorkflow: Workflow): Promise<string> => {
   try {
     return await db.workflows.add(newWorkflow);
   } catch (error) {

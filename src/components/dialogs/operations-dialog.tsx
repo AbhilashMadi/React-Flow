@@ -121,7 +121,7 @@ const OperationsDialog: FC<IOperationsDialog> = ({ open, onOpenChange }) => {
       id: generateId(),
       data,
       type: operation.nodeName,
-      position: { x: x + 200, y: nodes.length === 1 ? 300 : y },
+      position: { x: x + 300, y: nodes.length === 1 ? 400 : y },
     };
 
     dispatch(setNodes([...nodes, newOperationNode]));

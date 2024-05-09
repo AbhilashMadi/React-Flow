@@ -2,7 +2,7 @@ import { storeNewWorkflow } from "@/db/storage-services";
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { generateId } from "@/lib/generators";
 import { resetFlowState } from "@/store/reducers/flow-data-slice";
-import { resetFlow } from "@/store/reducers/nodes-list-slice";
+import { resetFlowNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { Button } from "@ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@ui/dialog";
@@ -34,7 +34,7 @@ const SaveWorkFlowDialog: FC<ISaveWorkFlowDialog> = (props) => {
       folderName: "",
       isClear: true,
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const { folderName, isClear } = values;
       await storeNewWorkflow({
         flowData,
@@ -44,16 +44,17 @@ const SaveWorkFlowDialog: FC<ISaveWorkFlowDialog> = (props) => {
       }).then((res) => {
         generateLog(`successfully saved the workflow with folder name: ${folderName}, id: ${res}`, LogLevels.SUCCESS)
         onOpenChange();
+        resetForm();
 
         if (isClear) {
-          dispatch(resetFlow())
+          dispatch(resetFlowNodes())
           dispatch(resetFlowState())
         }
       }).catch((err) => {
         generateLog(err, LogLevels.ERROR)
       })
     }
-  })
+  });
 
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent>

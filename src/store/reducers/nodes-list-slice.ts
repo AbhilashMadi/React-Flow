@@ -28,9 +28,10 @@ const counterSlice = createSlice({
     setEdges: (state, action: PayloadAction<Edge[]>) => {
       state.edges = action.payload;
     },
-    resetFlow: () => initialState,
+    resetFlowNodes: () => initialState,
+    importNodesState: (_state, action) => action.payload,
   }
 });
 
-export const { setNodes, setEdges, resetFlow } = counterSlice.actions;
+export const { setNodes, setEdges, resetFlowNodes, importNodesState } = counterSlice.actions;
 export default counterSlice.reducer;
