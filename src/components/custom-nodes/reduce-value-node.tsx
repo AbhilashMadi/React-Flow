@@ -23,7 +23,7 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
     for (let i = 0; i < 5; i++) {
       const randomIndex = Math.floor(Math.random() * filedata.data.length);
 
-      if (Number.isNaN(Number(filedata.data[randomIndex][c] || "-"))) {
+      if (Number.isNaN(Number((filedata.data[randomIndex] as Record<string, any>)[c] || "-"))) {
         numSeries = false;
         break;
       }
@@ -53,9 +53,9 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
         const dataset = performOn === "previous" ? nodes[nodeIndex - 1].data : filedata.data
 
         if (direction === "btt") {
-          sum = dataset.reduceRight((total: number, curr) => total + (Number(curr[column]) || 0), 0);
+          sum = dataset.reduceRight((total: number, curr: any) => total + (Number(curr[column]) || 0), 0);
         } else {
-          sum = dataset.reduce((total: number, curr) => total + (Number(curr[column]) || 0), 0);
+          sum = dataset.reduce((total: number, curr: any) => total + (Number(curr[column]) || 0), 0);
         }
 
         const currdata = {

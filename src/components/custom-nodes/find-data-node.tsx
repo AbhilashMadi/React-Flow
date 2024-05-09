@@ -39,7 +39,7 @@ const FindDataNode: FC<NodeProps> = memo((props) => {
       let recordIndex: number | null = null;
 
       if (findAt === "first") {
-        record = data.find((o, i: number) => {
+        record = data.find((o: any, i: number) => {
           if (o[column] === value) {
             recordIndex = i;
             return true;
@@ -47,7 +47,7 @@ const FindDataNode: FC<NodeProps> = memo((props) => {
           return false;
         });
       } else {
-        record = data.findLast((o, i: number) => {
+        record = data.findLast((o: any, i: number) => {
           if (o[column] === value) {
             recordIndex = i;
             return true;

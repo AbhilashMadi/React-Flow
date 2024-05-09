@@ -1,7 +1,7 @@
 import { FC, memo } from "react"
 import { Handle, type NodeProps, Position } from "reactflow"
 
-const GroupDataNode: FC<NodeProps> = memo((props) => {
+const GroupDataNode: FC<NodeProps> = memo(() => {
 
   return <div>
     Merge Data Node

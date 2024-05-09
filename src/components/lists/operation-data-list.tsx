@@ -43,7 +43,7 @@ const OperationDataList: FC = () => {
             aria-label="Sort column in ascending order"
             onClick={() => { onSortClick(headerCol, "asc") }} />}
       </>
-      : currentlist[rowIndex - 1]?.[headerCol] || "--";
+      : (currentlist[rowIndex - 1] as Record<string, any>)?.[headerCol] || "--";
 
     return (
       <div style={style} className={cn(isHeaderRow
