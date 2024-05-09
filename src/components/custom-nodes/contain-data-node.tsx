@@ -86,7 +86,6 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
         onChange={containNodeFormik.handleChange} />
     </form>
     <Handle position={Position.Left} type="target" />
-    <Handle position={Position.Right} type="source" />
     <NodeToolbar position={Position.Bottom}>
       <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
     </NodeToolbar>
