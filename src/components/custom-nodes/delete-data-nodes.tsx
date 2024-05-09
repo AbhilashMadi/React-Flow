@@ -1,18 +1,19 @@
-import { ChangeEvent, FC, memo, useState } from "react";
-import { Handle, NodeProps, Position } from "reactflow";
-import { GripHorizontal, Minus, PanelLeft, PanelRight, Plus } from "lucide-react";
 import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
-import { updateCurrentList } from "@/store/reducers/flow-data-slice";
-import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { generateId } from "@/lib/generators";
+import { updateCurrentList } from "@/store/reducers/flow-data-slice";
+import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
+import { GripHorizontal, Minus, PanelLeft, PanelRight, Plus } from "lucide-react";
+import { ChangeEvent, FC, memo, useState } from "react";
+import { Handle, NodeProps, NodeToolbar, Position } from "reactflow";
 
 const DeleteDataNode: FC<NodeProps> = memo((props) => {
   const { id, data } = props;
   const { generateLog } = useData();
 
   const { nodes } = useAppSelector(s => s.flowNodes);
+  const { filedata } = useAppSelector(s => s.flowData);
   const dispatch = useAppDispatch();
 
   const [inputs, setInputs] = useState<{ [key: string]: number | "" }>({
@@ -148,6 +149,9 @@ const DeleteDataNode: FC<NodeProps> = memo((props) => {
       </form>
       <Handle position={Position.Left} type="target" />
       <Handle position={Position.Right} type="source" />
+      <NodeToolbar position={Position.Bottom}>
+        <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
+      </NodeToolbar>
       <div className="grid-center mt-1 h-4">
         <GripHorizontal />
       </div>

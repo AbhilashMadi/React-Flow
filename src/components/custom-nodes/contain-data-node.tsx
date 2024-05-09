@@ -1,12 +1,12 @@
+import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks";
 import { updateCurrentList } from "@/store/reducers/flow-data-slice";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
-import { useFormik } from "formik";
-import { FC, memo } from "react";
-import { Handle, type NodeProps, Position } from "reactflow";
-import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { LogLevels } from "@/types/context";
+import { useFormik } from "formik";
 import { GripHorizontal } from "lucide-react";
+import { FC, memo } from "react";
+import { Handle, type NodeProps, NodeToolbar, Position } from "reactflow";
 
 const ContainDataNode: FC<NodeProps> = memo((props) => {
   const { data, id } = props;
@@ -87,6 +87,9 @@ const ContainDataNode: FC<NodeProps> = memo((props) => {
     </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <NodeToolbar position={Position.Bottom}>
+      <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
+    </NodeToolbar>
     <div className="grid-center mt-1 h-4">
       <GripHorizontal />
     </div>

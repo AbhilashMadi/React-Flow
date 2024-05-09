@@ -4,12 +4,12 @@ import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { LogLevels } from "@/types/context";
 import { useFormik } from "formik";
 import { FC, memo, useMemo } from "react";
-import { type NodeProps, Handle, Position } from "reactflow";
+import { type NodeProps, Handle, NodeToolbar, Position } from "reactflow";
 import CustomNodeTooltip from "@/components/custom-nodes/custom-tooltip";
 import { GripHorizontal } from "lucide-react";
 
 const ReduceValueNode: FC<NodeProps> = memo((props) => {
-  const { id } = props;
+  const { id, data } = props;
   const { generateLog } = useData();
 
   const { nodes } = useAppSelector(s => s.flowNodes);
@@ -121,6 +121,9 @@ const ReduceValueNode: FC<NodeProps> = memo((props) => {
       </select>
     </form>
     <Handle position={Position.Left} type="target" />
+    <NodeToolbar position={Position.Bottom}>
+      <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
+    </NodeToolbar>
     <div className="grid-center mt-1 h-4">
       <GripHorizontal />
     </div>

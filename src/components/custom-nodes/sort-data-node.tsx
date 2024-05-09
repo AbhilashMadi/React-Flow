@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector, useData } from "@/hooks/state-hooks"
 import { FC, memo } from "react"
-import { type NodeProps, Position, Handle } from "reactflow"
+import { type NodeProps, Position, Handle, NodeToolbar } from "reactflow"
 import CustomNodeTooltip from "./custom-tooltip";
 import { setNodes } from "@/store/reducers/nodes-list-slice";
 import { useFormik } from "formik";
@@ -14,6 +14,7 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
   const { nodes } = useAppSelector((s) => s.flowNodes);
   const dispatch = useAppDispatch();
   const { generateLog } = useData();
+  const { filedata } = useAppSelector(s => s.flowData)
 
   const sortFormik = useFormik<{
     column: string;
@@ -67,6 +68,9 @@ const SortDataNode: FC<NodeProps> = memo((props) => {
     </form>
     <Handle position={Position.Left} type="target" />
     <Handle position={Position.Right} type="source" />
+    <NodeToolbar position={Position.Bottom}>
+      <pre className="text-[10px]">[DATASET]: {data.length} | {filedata.meta?.fields?.length} columns</pre>
+    </NodeToolbar>
     <div className="grid-center mt-1 h-4">
       <GripHorizontal />
     </div>
