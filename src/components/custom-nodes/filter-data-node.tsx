@@ -90,7 +90,7 @@ const FilterDataNode: FC<NodeProps> = memo((props) => {
     />
     <form className="flex flex-col gap-2 text-xs text-primary dark:text-secondary">
       <select onChange={filterFormik.handleChange} name={"column"} className="rounded border p-1" value={filterFormik.values.column}>
-        <option className="text-xs">Select a column</option>
+        <option className="text-xs" disabled>Select a column</option>
         {dataColumns.map(s => <option value={s} key={s} className="text-xs">{s}</option>)}
       </select>
 
