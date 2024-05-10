@@ -56,7 +56,7 @@ const InitialNode: FC<NodeProps> = memo(() => {
 
   const handleLoadSampleData = (): void => {
     try {
-      const filename = "electronic-card-transactions.csv";
+      const filename = "electronic-card-transactions";
 
       parser.parse(sampleCsv, {
         header: true,
